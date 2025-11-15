@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDCLibrary", "TDCLibrary\TDCLibrary.csproj", "{0C2ACB52-1BD9-49A6-BB21-CF864086B376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDCGui", "TDCGui\TDCGui.csproj", "{D282C821-7D71-49A2-A98B-1042D09458C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C2ACB52-1BD9-49A6-BB21-CF864086B376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C2ACB52-1BD9-49A6-BB21-CF864086B376}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C2ACB52-1BD9-49A6-BB21-CF864086B376}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C2ACB52-1BD9-49A6-BB21-CF864086B376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D282C821-7D71-49A2-A98B-1042D09458C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D282C821-7D71-49A2-A98B-1042D09458C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D282C821-7D71-49A2-A98B-1042D09458C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D282C821-7D71-49A2-A98B-1042D09458C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

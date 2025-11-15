@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+             x:Class="TDCGui.Views.StopTimesView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+    
+    <controls:DataGrid ItemsSource="{Binding}" 
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="False"
+                      GridLinesVisibility="All"
+                      HeadersVisibility="All"
+                      MinHeight="400">
+        <controls:DataGrid.Columns>
+            <controls:DataGridTextColumn Header="trip_id" Binding="{Binding TripId}" Width="*"/>
+            <controls:DataGridTextColumn Header="stop_id" Binding="{Binding StopId}" Width="*"/>
+            <controls:DataGridTextColumn Header="arrival_time" Binding="{Binding ArrivalTime}" Width="*"/>
+            <controls:DataGridTextColumn Header="departure_time" Binding="{Binding DepartureTime}" Width="*"/>
+            <controls:DataGridTextColumn Header="stop_sequence" Binding="{Binding StopSequence}" Width="*"/>
+        </controls:DataGrid.Columns>
+    </controls:DataGrid>
+</UserControl>

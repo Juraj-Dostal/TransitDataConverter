@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+             x:Class="TDCGui.Views.AgencyDataControl">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+
+    <controls:DataGrid ItemsSource="{Binding}"
+                       AutoGenerateColumns="False"
+                       IsReadOnly="False"
+                       CanUserReorderColumns="False"
+                       GridLinesVisibility="All"
+                       HeadersVisibility="All"
+                       MinHeight="400">
+        <controls:DataGrid.Columns>
+            <controls:DataGridTextColumn Header="ID" Binding="{Binding AgencyId}" Width="100"/>
+            <controls:DataGridTextColumn Header="Name" Binding="{Binding AgencyName}" Width="200"/>
+            <controls:DataGridTextColumn Header="URL" Binding="{Binding AgencyUrl}" Width="200"/>
+            <controls:DataGridTextColumn Header="Timezone" Binding="{Binding AgencyTimezone}" Width="150"/>
+            <controls:DataGridTextColumn Header="Lang" Binding="{Binding AgencyLang}" Width="80"/>
+            <controls:DataGridTextColumn Header="Phone" Binding="{Binding AgencyPhone}" Width="120"/>
+            <controls:DataGridTextColumn Header="Fare URL" Binding="{Binding AgencyFareUrl}" Width="200"/>
+            <controls:DataGridTextColumn Header="Email" Binding="{Binding AgencyEmail}" Width="150"/>
+            <controls:DataGridTextColumn Header="CEMV" Binding="{Binding CemvSupport}" Width="80"/>
+        </controls:DataGrid.Columns>
+    </controls:DataGrid>
+</UserControl>
