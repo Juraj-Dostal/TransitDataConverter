@@ -422,13 +422,13 @@ public class GtfsLoader
         return new GtsfModel.Calendar
         {
             ServiceId = GetValue(row, "service_id"),
-            Monday = ParseInt(GetValue(row, "monday")) ?? 0,
-            Tuesday = ParseInt(GetValue(row, "tuesday")) ?? 0,
-            Wednesday = ParseInt(GetValue(row, "wednesday")) ?? 0,
-            Thursday = ParseInt(GetValue(row, "thursday")) ?? 0,
-            Friday = ParseInt(GetValue(row, "friday")) ?? 0,
-            Saturday = ParseInt(GetValue(row, "saturday")) ?? 0,
-            Sunday = ParseInt(GetValue(row, "sunday")) ?? 0,
+            Monday = ParseInt(GetValue(row, "monday")) == 1,
+            Tuesday = ParseInt(GetValue(row, "tuesday")) == 1,
+            Wednesday = ParseInt(GetValue(row, "wednesday")) == 1,
+            Thursday = ParseInt(GetValue(row, "thursday")) == 1,
+            Friday = ParseInt(GetValue(row, "friday")) == 1,
+            Saturday = ParseInt(GetValue(row, "saturday")) == 1,
+            Sunday = ParseInt(GetValue(row, "sunday")) == 1,
             StartDate = GetValue(row, "start_date"),
             EndDate = GetValue(row, "end_date")
         };
@@ -500,6 +500,10 @@ public class GtfsLoader
         {
             FromStopId = GetValue(row, "from_stop_id"),
             ToStopId = GetValue(row, "to_stop_id"),
+            FromRouteId = GetValue(row, "from_route_id"),
+            ToRouteId = GetValue(row, "to_route_id"),
+            FromTripId = GetValue(row, "from_trip_id"),
+            ToTripId = GetValue(row, "to_trip_id"),
             TransferType = ParseEnumRequired(GetValue(row, "transfer_type"), TransferType.Recommended),
             MinTransferTime = ParseInt(GetValue(row, "min_transfer_time"))
         };

@@ -6,18 +6,25 @@
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
     </UserControl.Styles>
     
-    <controls:DataGrid ItemsSource="{Binding}" 
-                      AutoGenerateColumns="False" 
-                      IsReadOnly="False"
-                      GridLinesVisibility="All"
-                      HeadersVisibility="All"
-                      MinHeight="400">
-        <controls:DataGrid.Columns>
-            <controls:DataGridTextColumn Header="service_id" Binding="{Binding ServiceId}" Width="*"/>
-            <controls:DataGridTextColumn Header="monday" Binding="{Binding Monday}" Width="*"/>
-            <controls:DataGridTextColumn Header="tuesday" Binding="{Binding Tuesday}" Width="*"/>
-            <controls:DataGridTextColumn Header="start_date" Binding="{Binding StartDate}" Width="*"/>
-            <controls:DataGridTextColumn Header="end_date" Binding="{Binding EndDate}" Width="*"/>
-        </controls:DataGrid.Columns>
-    </controls:DataGrid>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <controls:DataGrid ItemsSource="{Binding}" 
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="False"
+                          GridLinesVisibility="All"
+                          HeadersVisibility="All"
+                          MinHeight="400">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Header="service_id" Binding="{Binding ServiceId}" Width="Auto"/>
+                <controls:DataGridCheckBoxColumn Header="monday" Binding="{Binding Monday}" Width="Auto"/>
+                <controls:DataGridCheckBoxColumn Header="tuesday" Binding="{Binding Tuesday}" Width="Auto"/>
+                <controls:DataGridCheckBoxColumn Header="wednesday" Binding="{Binding Wednesday}" Width="Auto"/>
+                <controls:DataGridCheckBoxColumn Header="thursday" Binding="{Binding Thursday}" Width="Auto"/>
+                <controls:DataGridCheckBoxColumn Header="friday" Binding="{Binding Friday}" Width="Auto"/>
+                <controls:DataGridCheckBoxColumn Header="saturday" Binding="{Binding Saturday}" Width="Auto"/>
+                <controls:DataGridCheckBoxColumn Header="sunday" Binding="{Binding Sunday}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="start_date" Binding="{Binding StartDate}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="end_date" Binding="{Binding EndDate}" Width="Auto"/>
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
+    </ScrollViewer>
 </UserControl>

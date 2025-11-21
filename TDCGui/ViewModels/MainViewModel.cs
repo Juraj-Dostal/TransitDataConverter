@@ -106,6 +106,46 @@ public class MainViewModel : ReactiveObject
             {
                 DataContext = new ObservableCollection<TDCLibrary.GtsfModel.Calendar>(Data.Calendars)
             },
+            "CalendarDates" => new CalendarDatesView
+            {
+                DataContext = new ObservableCollection<CalendarDate>(Data.CalendarDates)
+            },
+            "FareAttributes" => new FareAttributesView
+            {
+                DataContext = new ObservableCollection<FareAttribute>(Data.FareAttributes)
+            },
+            "FareRules" => new FareRulesView
+            {
+                DataContext = new ObservableCollection<FareRule>(Data.FareRules)
+            },
+            "Shapes" => new ShapesView
+            {
+                DataContext = new ObservableCollection<Shape>(Data.Shapes)
+            },
+            "Frequencies" => new FrequenciesView
+            {
+                DataContext = new ObservableCollection<Frequency>(Data.Frequencies)
+            },
+            "Transfers" => new TransfersView
+            {
+                DataContext = new ObservableCollection<Transfer>(Data.Transfers)
+            },
+            "Pathways" => new PathwaysView
+            {
+                DataContext = new ObservableCollection<Pathway>(Data.Pathways)
+            },
+            "Levels" => new LevelsView
+            {
+                DataContext = new ObservableCollection<Level>(Data.Levels)
+            },
+            "Translations" => new TranslationsView
+            {
+                DataContext = new ObservableCollection<Translation>(Data.Translations)
+            },
+            "Attributions" => new AttributionsView
+            {
+                DataContext = new ObservableCollection<Attribution>(Data.Attributions)
+            },
             _ => CreateEmptyView()
         };
     }

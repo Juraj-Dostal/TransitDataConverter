@@ -1,7 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
-             x:Class="TDCGui.Views.StopTimesView">
+             x:Class="TDCGui.Views.ShapesView">
     <UserControl.Styles>
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
     </UserControl.Styles>
@@ -14,11 +14,11 @@
                           HeadersVisibility="All"
                           MinHeight="400">
             <controls:DataGrid.Columns>
-                <controls:DataGridTextColumn Header="trip_id" Binding="{Binding TripId}" Width="Auto"/>
-                <controls:DataGridTextColumn Header="stop_id" Binding="{Binding StopId}" Width="Auto"/>
-                <controls:DataGridTextColumn Header="arrival_time" Binding="{Binding ArrivalTime}" Width="Auto"/>
-                <controls:DataGridTextColumn Header="departure_time" Binding="{Binding DepartureTime}" Width="Auto"/>
-                <controls:DataGridTextColumn Header="stop_sequence" Binding="{Binding StopSequence}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="shape_id" Binding="{Binding ShapeId}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="shape_pt_lat" Binding="{Binding ShapePtLat}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="shape_pt_lon" Binding="{Binding ShapePtLon}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="shape_pt_sequence" Binding="{Binding ShapePtSequence}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="shape_dist_traveled" Binding="{Binding ShapeDistTraveled}" Width="Auto"/>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
     </ScrollViewer>

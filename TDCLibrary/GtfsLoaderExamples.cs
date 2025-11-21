@@ -175,13 +175,13 @@ public class GtfsLoaderExamples
             {
                 var jeAktivny = denVTyzdni switch
                 {
-                    0 => calendar.Sunday == 1,   // Nedeľa
-                    1 => calendar.Monday == 1,   // Pondelok
-                    2 => calendar.Tuesday == 1,  // Utorok
-                    3 => calendar.Wednesday == 1,// Streda
-                    4 => calendar.Thursday == 1, // Štvrtok
-                    5 => calendar.Friday == 1,   // Piatok
-                    6 => calendar.Saturday == 1, // Sobota
+                    0 => calendar.Sunday,   // Nedeľa
+                    1 => calendar.Monday,   // Pondelok
+                    2 => calendar.Tuesday,  // Utorok
+                    3 => calendar.Wednesday,// Streda
+                    4 => calendar.Thursday, // Štvrtok
+                    5 => calendar.Friday,   // Piatok
+                    6 => calendar.Saturday, // Sobota
                     _ => false
                 };
                 

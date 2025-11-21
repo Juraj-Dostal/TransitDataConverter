@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+             x:Class="TDCGui.Views.TransfersView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+    
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <controls:DataGrid ItemsSource="{Binding}" 
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="False"
+                          GridLinesVisibility="All"
+                          HeadersVisibility="All"
+                          MinHeight="400">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Header="from_stop_id" Binding="{Binding FromStopId}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="to_stop_id" Binding="{Binding ToStopId}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="from_route_id" Binding="{Binding FromRouteId}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="to_route_id" Binding="{Binding ToRouteId}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="from_trip_id" Binding="{Binding FromTripId}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="to_trip_id" Binding="{Binding ToTripId}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="transfer_type" Binding="{Binding TransferType}" Width="Auto"/>
+                <controls:DataGridTextColumn Header="min_transfer_time" Binding="{Binding MinTransferTime}" Width="Auto"/>
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
+    </ScrollViewer>
+</UserControl>
