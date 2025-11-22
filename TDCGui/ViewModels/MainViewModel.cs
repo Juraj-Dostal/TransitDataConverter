@@ -71,14 +71,10 @@ public class MainViewModel : ReactiveObject
     {
         if (SelectedDataType == null)
         {
-            Console.WriteLine("DEBUG UpdateCurrentView: SelectedDataType is null");
             CurrentView = null;
             return;
         }
-
-        Console.WriteLine($"DEBUG UpdateCurrentView: Creating view for {SelectedDataType.DataType}");
-        Console.WriteLine($"DEBUG UpdateCurrentView: Data counts - Agencies:{Data.Agencies.Count}, Routes:{Data.Routes.Count}, Stops:{Data.Stops.Count}");
-
+        
         // Create new control instance with current data
         CurrentView = SelectedDataType.DataType switch
         {
@@ -181,8 +177,7 @@ public class MainViewModel : ReactiveObject
         new DataTypeItem { DisplayName = "Pathways", DataType = "Pathways" },
         new DataTypeItem { DisplayName = "Levels", DataType = "Levels" },
         new DataTypeItem { DisplayName = "Translations", DataType = "Translations" },
-        new DataTypeItem { DisplayName = "Attributions", DataType = "Attributions" },
-        new DataTypeItem { DisplayName = "Feed Info", DataType = "FeedInfo" }
+        new DataTypeItem { DisplayName = "Attributions", DataType = "Attributions" }
     };
 
     public ReactiveCommand<Unit, Unit> SelectFolderCommand { get; }
