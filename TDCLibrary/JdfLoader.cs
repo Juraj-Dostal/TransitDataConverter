@@ -154,7 +154,8 @@ public class JdfLoader
             TrimOptions = TrimOptions.Trim,
             MissingFieldFound = null, // Ignoruj chýbajúce polia
             BadDataFound = null, // Ignoruj chybné dáta
-            Delimiter = ";" // JDF používa bodkočiarku ako oddeľovač
+            Delimiter = ",", // JDF používa čiarku ako oddeľovač
+            Quote = '"' // JDF používa úvodzovky okolo hodnôt
         };
         
         using var reader = new StreamReader(filePath, System.Text.Encoding.GetEncoding("windows-1250")); // JDF používa windows-1250
@@ -179,7 +180,10 @@ public class JdfLoader
                 
                 foreach (var header in headers)
                 {
-                    row[header] = csv.GetField(header) ?? string.Empty;
+                    var value = csv.GetField(header) ?? string.Empty;
+                    // Odstráň úvodzovky, ak sú prítomné
+                    value = value.Trim('"').Trim();
+                    row[header] = value;
                 }
                 
                 var item = parser(row);
@@ -309,7 +313,7 @@ public class JdfLoader
     {
         return new Zastavky
         {
-            CisloZastavky = ParseIntRequired(GetValue(row, "CisloZastavky")),
+            Cislo = ParseIntRequired(GetValue(row, "CisloZastavky")),
             NazovObce = GetValue(row, "NazovObce"),
             CastObce = GetValue(row, "CastObce"),
             BlizkeMiesto = GetValue(row, "BlizkeMiesto"),
@@ -368,7 +372,7 @@ public class JdfLoader
         return new Spoje
         {
             CisloLinky = ParseIntRequired(GetValue(row, "CisloLinky")),
-            CisloSpoje = ParseIntRequired(GetValue(row, "CisloSpoje")),
+            Cislo = ParseIntRequired(GetValue(row, "CisloSpoje")),
             PevnyKod1 = ParseInt(GetValue(row, "PevnyKod1")),
             PevnyKod2 = ParseInt(GetValue(row, "PevnyKod2")),
             PevnyKod3 = ParseInt(GetValue(row, "PevnyKod3")),

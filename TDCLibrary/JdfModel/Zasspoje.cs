@@ -64,4 +64,17 @@ public class Zasspoje
     /// Rozlišení linky (POVINNÉ)
     /// </summary>
     public int RozlisenieLinky { get; set; }
+    
+    public static string ConvertTime(string time)
+    {
+        var parts = time.Split(':');
+        if (parts.Length == 3)
+        {
+            int hours = int.Parse(parts[0]);
+            int minutes = int.Parse(parts[1]);
+            int seconds = int.Parse(parts[2]);
+            return $"{hours:D2}{minutes:D2}";
+        }
+        return "0000";
+    }
 }

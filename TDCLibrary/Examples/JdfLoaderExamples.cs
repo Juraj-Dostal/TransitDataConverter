@@ -50,7 +50,7 @@ public static class JdfLoaderExamples
         
         foreach (var zastavka in zastavky.Take(5))
         {
-            Console.WriteLine($"  Číslo: {zastavka.CisloZastavky}, Obec: {zastavka.NazovObce}, Štát: {zastavka.Stat}");
+            Console.WriteLine($"  Číslo: {zastavka.Cislo}, Obec: {zastavka.NazovObce}, Štát: {zastavka.Stat}");
         }
     }
     
@@ -87,7 +87,7 @@ public static class JdfLoaderExamples
             {
                 new Zastavky
                 {
-                    CisloZastavky = 1,
+                    Cislo = 1,
                     NazovObce = "Bratislava",
                     CastObce = "Staré Mesto",
                     BlizkeMiesto = "Hlavná stanica",
@@ -96,7 +96,7 @@ public static class JdfLoaderExamples
                 },
                 new Zastavky
                 {
-                    CisloZastavky = 2,
+                    Cislo = 2,
                     NazovObce = "Bratislava",
                     CastObce = "Ružinov",
                     BlizkeMiesto = "Zimný štadión",
@@ -148,7 +148,7 @@ public static class JdfLoaderExamples
                 new Spoje
                 {
                     CisloLinky = 4,
-                    CisloSpoje = 1,
+                    Cislo = 1,
                     RozliseniLinky = 1
                 }
             },
@@ -345,7 +345,7 @@ public static class JdfLoaderExamples
         Console.WriteLine("\nPrvých 5 zastávok:");
         foreach (var zaslinka in zastavkyNaLinke.Take(5))
         {
-            var zastavka = data.Zastavky.FirstOrDefault(z => z.CisloZastavky == zaslinka.CisloZastavky);
+            var zastavka = data.Zastavky.FirstOrDefault(z => z.Cislo == zaslinka.CisloZastavky);
             if (zastavka != null)
             {
                 Console.WriteLine($"  {zaslinka.CisloTarifni}. {zastavka.NazovObce} - {zastavka.BlizkeMiesto}");

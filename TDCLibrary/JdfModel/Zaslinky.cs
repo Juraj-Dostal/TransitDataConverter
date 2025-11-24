@@ -13,6 +13,7 @@ public class Zaslinky
     
     /// <summary>
     /// Číslo tarifní (POVINNÉ)
+    /// arifním číslem zastávky, které vyjadřuje posloupnost zastávek v rámci linky
     /// </summary>
     public int CisloTarifni { get; set; }
     

@@ -76,7 +76,7 @@ public class Linky
     /// <summary>
     /// Platnost JŘ do (NEPOVINNÉ)
     /// </summary>
-    public string PlatnostJRDo { get; set; }
+    public string? PlatnostJRDo { get; set; }
     
     /// <summary>
     /// Rozlišení dopravce (POVINNÉ)

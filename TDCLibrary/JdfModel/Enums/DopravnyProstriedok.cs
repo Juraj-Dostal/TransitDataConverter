@@ -7,13 +7,13 @@ public enum DopravnyProstriedok
     [Description ("A")]
     Autobus,
     [Description ("E")]
-    Tramvaj,
+    Elektricka,
     [Description ("L")]
     LanovaDraha,
     [Description ("M")]
     Metro,
     [Description ("P")]
-    Privoz,
+    Trajekt,
     [Description ("T")]
     Trolejbus
 }

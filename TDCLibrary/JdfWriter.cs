@@ -55,8 +55,9 @@ public class JdfWriter
         using var writer = new StreamWriter(path, false, System.Text.Encoding.GetEncoding("windows-1250")); // JDF používa windows-1250
         var cfg = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            ShouldQuote = args => false, // JDF nepoužíva úvodzovky
-            Delimiter = ";" // JDF používa bodkočiarku
+            ShouldQuote = args => true, // JDF používa úvodzovky okolo všetkých polí
+            Delimiter = ",", // JDF používa čiarku ako oddeľovač
+            Quote = '"'
         };
         using var csv = new CsvWriter(writer, cfg);
         
@@ -113,7 +114,7 @@ public class JdfWriter
     {
         WriteCsv("Zastavky.txt", zastavky, (csv, z) =>
         {
-            csv.WriteField(z.CisloZastavky.ToString());
+            csv.WriteField(z.Cislo.ToString());
             csv.WriteField(z.NazovObce);
             csv.WriteField(z.CastObce ?? "");
             csv.WriteField(z.BlizkeMiesto ?? "");
@@ -177,7 +178,7 @@ public class JdfWriter
         WriteCsv("Spoje.txt", spoje, (csv, s) =>
         {
             csv.WriteField(s.CisloLinky.ToString());
-            csv.WriteField(s.CisloSpoje.ToString());
+            csv.WriteField(s.Cislo.ToString());
             csv.WriteField(s.PevnyKod1?.ToString() ?? "");
             csv.WriteField(s.PevnyKod2?.ToString() ?? "");
             csv.WriteField(s.PevnyKod3?.ToString() ?? "");

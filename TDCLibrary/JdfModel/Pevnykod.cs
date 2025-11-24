@@ -96,4 +96,14 @@ public static class PevnyKodExtensions
             .Cast<PevnyKodOznacenie>()
             .ToDictionary(k => k, v => v.ZiskajZnak());
     }
+    
+    /// <summary>
+    /// Zakladný formát čísla pevného kódu (päťmiestne číslo s úvodnými nulami)
+    /// </summary>
+    /// <returns></returns>
+    public static string DajCislo(PevnyKodOznacenie pevnyKodOznacenie)
+    {
+        int value = Convert.ToInt32(pevnyKodOznacenie);
+        return value.ToString("D5");
+    }
 }

@@ -12,7 +12,7 @@ public class Zastavky
     /// <summary>
     /// Cislo zastávky (POVINNÉ)
     /// </summary>
-    public int CisloZastavky { get; set; }
+    public int Cislo { get; set; }
     
     /// <summary>
     /// Název obce (POVINNÉ)

@@ -15,7 +15,7 @@ public class Spoje
     /// liché číslo u spojů vedených ve směru vedení linky
     /// sudé číslo u spojů vedených ve směru zpět
     /// </summary>
-    public int CisloSpoje { get; set; }
+    public int Cislo { get; set; }
     
     /// <summary>
     /// Pevny kód (NEPOVINNÉ)
