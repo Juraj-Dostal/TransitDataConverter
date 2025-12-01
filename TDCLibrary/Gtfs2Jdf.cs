@@ -155,11 +155,17 @@ public class Gtfs2Jdf
                 KodSkupinySpoju = null, 
                 RozliseniLinky = int.Parse(trip.RouteId)
             };
+
+            var calendar = gtsfData.Calendars.Where(c => c.ServiceId == trip.ServiceId).ToList();
+            var calendarDates = gtsfData.CalendarDates.Where(c => c.ServiceId == trip.ServiceId).ToList();
+
+            
             spojeList.Add(spoj);
         }
         
         return spojeList;
     }
+
     
     public static List<Zasspoje> ConvertZasspoje(GtfsData gtsfData)
     {

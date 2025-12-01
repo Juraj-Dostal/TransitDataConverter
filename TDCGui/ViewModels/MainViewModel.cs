@@ -10,7 +10,7 @@ using Avalonia.Threading;
 using ReactiveUI;
 using TDCLibrary;
 using TDCLibrary.GtsfModel;
-using TDCGui.Views;
+using TDCGui.Views.GtfsViews;
 
 namespace TDCGui.ViewModels;
 
@@ -313,6 +313,56 @@ public class MainViewModel : ReactiveObject
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 StatusMessage = $"Chyba pri ukladaní: {ex.Message}";
+            });
+        }
+    }
+
+    private async Task ConvertToJdfAsync()
+    {
+        if (string.IsNullOrWhiteSpace(ConvertFolder))
+        {
+            StatusMessage = "Chyba: Nie je vybraný cieľový priečinok pre JDF!";
+            return;
+        }
+
+        if (Data.Agencies.Count == 0 && Data.Routes.Count == 0)
+        {
+            StatusMessage = "Chyba: Najprv načítajte GTFS dáta!";
+            return;
+        }
+
+        try
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                StatusMessage = "Konvertujem GTFS do JDF...";
+            });
+
+            JdfData jdfData = null;
+            await Task.Run(() =>
+            {
+                jdfData = Gtfs2Jdf.Convert(Data);
+                var writer = new JdfWriter(ConvertFolder);
+                writer.WriteAll(jdfData);
+            });
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                StatusMessage = "Konverzia dokončená!";
+                
+                // Open JDF window with converted data
+                var jdfWindow = new JdfWindow();
+                var viewModel = new JdfViewModel();
+                viewModel.LoadJdfData(jdfData, ConvertFolder);
+                jdfWindow.DataContext = viewModel;
+                jdfWindow.Show();
+            });
+        }
+        catch (Exception ex)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                StatusMessage = $"Chyba pri konverzii: {ex.Message}";
             });
         }
     }
