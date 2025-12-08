@@ -8,7 +8,7 @@ public enum PevnyKodOznacenie
     PracovneDni,
     
     [Description("+")]
-    NedeleAeSviatky,
+    NedeleAveSviatky,
     
     [Description("1")]
     Pondelok,

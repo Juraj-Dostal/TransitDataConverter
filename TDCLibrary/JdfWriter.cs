@@ -52,7 +52,7 @@ public class JdfWriter
     private void WriteCsv<T>(string fileName, IEnumerable<T> records, Action<CsvWriter, T> map, string[] header)
     {
         var path = Path.Combine(_directory, fileName);
-        using var writer = new StreamWriter(path, false, System.Text.Encoding.GetEncoding("windows-1250")); // JDF používa windows-1250
+        using var writer = new StreamWriter(path, false); // JDF používa windows-1250
         var cfg = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
             ShouldQuote = args => true, // JDF používa úvodzovky okolo všetkých polí
@@ -120,12 +120,11 @@ public class JdfWriter
             csv.WriteField(z.BlizkeMiesto ?? "");
             csv.WriteField(z.BlizkaObec ?? "");
             csv.WriteField(z.Stat);
-            csv.WriteField(z.PevnyKod1 ?? "");
-            csv.WriteField(z.PevnyKod2 ?? "");
-            csv.WriteField(z.PevnyKod3 ?? "");
-            csv.WriteField(z.PevnyKod4 ?? "");
-            csv.WriteField(z.PevnyKod5 ?? "");
-            csv.WriteField(z.PevnyKod6 ?? "");
+            // Zapíš pevné kódy z poľa ako 5-miestne čísla
+            for (int i = 0; i < 6; i++)
+            {
+                csv.WriteField(z.PevneKody[i].HasValue ? PevnyKodExtensions.DajCislo(z.PevneKody[i].Value) : "");
+            }
         }, new[] { "CisloZastavky", "NazovObce", "CastObce", "BlizkeMiesto", "BlizkaObec", "Stat", 
                    "PevnyKod1", "PevnyKod2", "PevnyKod3", "PevnyKod4", "PevnyKod5", "PevnyKod6" });
     }
@@ -134,7 +133,7 @@ public class JdfWriter
     {
         WriteCsv("Linky.txt", linky, (csv, l) =>
         {
-            csv.WriteField(l.Cislo.ToString());
+            csv.WriteField(l.Cislo.ToString("D6"));
             csv.WriteField(l.Nazov);
             csv.WriteField(l.IcDopravce);
             csv.WriteField(((int)l.Typ).ToString());
@@ -165,9 +164,11 @@ public class JdfWriter
             csv.WriteField(z.TarifniPasmo ?? "");
             csv.WriteField(z.CisloZastavky.ToString());
             csv.WriteField(z.PriemernaDoba ?? "");
-            csv.WriteField(z.PevnyKod1 ?? "");
-            csv.WriteField(z.PevnyKod2 ?? "");
-            csv.WriteField(z.PevnyKod3 ?? "");
+            // Zapíš pevné kódy z poľa ako 5-miestne čísla
+            for (int i = 0; i < 3; i++)
+            {
+                csv.WriteField(z.PevneKody[i].HasValue ? PevnyKodExtensions.DajCislo(z.PevneKody[i].Value) : "");
+            }
             csv.WriteField(z.RozlisenieLinky.ToString());
         }, new[] { "CisloLinky", "CisloTarifni", "TarifniPasmo", "CisloZastavky", "PriemernaDoba", 
                    "PevnyKod1", "PevnyKod2", "PevnyKod3", "RozlisenieLinky" });
@@ -177,18 +178,13 @@ public class JdfWriter
     {
         WriteCsv("Spoje.txt", spoje, (csv, s) =>
         {
-            csv.WriteField(s.CisloLinky.ToString());
+            csv.WriteField(s.CisloLinky.ToString("D6"));
             csv.WriteField(s.Cislo.ToString());
-            csv.WriteField(s.PevnyKod1?.ToString() ?? "");
-            csv.WriteField(s.PevnyKod2?.ToString() ?? "");
-            csv.WriteField(s.PevnyKod3?.ToString() ?? "");
-            csv.WriteField(s.PevnyKod4?.ToString() ?? "");
-            csv.WriteField(s.PevnyKod5?.ToString() ?? "");
-            csv.WriteField(s.PevnyKod6?.ToString() ?? "");
-            csv.WriteField(s.PevnyKod7?.ToString() ?? "");
-            csv.WriteField(s.PevnyKod8?.ToString() ?? "");
-            csv.WriteField(s.PevnyKod9?.ToString() ?? "");
-            csv.WriteField(s.PevnyKod10?.ToString() ?? "");
+            // Zapíš pevné kódy z poľa ako 5-miestne čísla
+            for (int i = 0; i < 10; i++)
+            {
+                csv.WriteField(s.PevneKody[i].HasValue ? PevnyKodExtensions.DajCislo(s.PevneKody[i].Value) : "");
+            }
             csv.WriteField(s.KodSkupinySpoju?.ToString() ?? "");
             csv.WriteField(s.RozliseniLinky.ToString());
         }, new[] { "CisloLinky", "CisloSpoje", "PevnyKod1", "PevnyKod2", "PevnyKod3", "PevnyKod4", 
@@ -200,14 +196,17 @@ public class JdfWriter
     {
         WriteCsv("Zasspoje.txt", zasspoje, (csv, z) =>
         {
-            csv.WriteField(z.CisloLinky.ToString());
+            csv.WriteField(z.CisloLinky.ToString("D6"));
             csv.WriteField(z.CisloSpoje.ToString());
             csv.WriteField(z.CisloTarifni.ToString());
             csv.WriteField(z.CisloZastavky.ToString());
             csv.WriteField(z.KodOznacniku?.ToString() ?? "");
             csv.WriteField(z.CisloStanoviste ?? "");
-            csv.WriteField(z.PevnyKod1 ?? "");
-            csv.WriteField(z.PevnyKod2 ?? "");
+            // Zapíš pevné kódy z poľa ako 5-miestne čísla
+            for (int i = 0; i < 2; i++)
+            {
+                csv.WriteField(z.PevneKody[i].HasValue ? PevnyKodExtensions.DajCislo(z.PevneKody[i].Value) : "");
+            }
             csv.WriteField(z.Kilometry?.ToString(CultureInfo.InvariantCulture).Replace('.', ',') ?? "");
             csv.WriteField(z.CasPrichodu);
             csv.WriteField(z.CasOdchodu ?? "");
@@ -221,7 +220,7 @@ public class JdfWriter
     {
         WriteCsv("Caskody.txt", caskody, (csv, c) =>
         {
-            csv.WriteField(c.CisloLinky.ToString());
+            csv.WriteField(c.CisloLinky.ToString("D6"));
             csv.WriteField(c.CisloSpoje.ToString());
             csv.WriteField(c.Cislo.ToString());
             csv.WriteField(c.Oznacenie);

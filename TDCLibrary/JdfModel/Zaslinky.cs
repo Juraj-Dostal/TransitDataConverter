@@ -1,3 +1,5 @@
+using TDCLibrary.JdfModel.Enums;
+
 namespace TDCLibrary.JdfModel;
 
 /// <summary>
@@ -33,11 +35,10 @@ public class Zaslinky
     public string? PriemernaDoba { get; set; }
     
     /// <summary>
-    /// Pevný kód (NEPOVINNÉ)
+    /// Pevné kódy (NEPOVINNÉ)
+    /// Pole až 3 pevných kódov
     /// </summary>
-    public string? PevnyKod1 { get; set; }
-    public string? PevnyKod2 { get; set; }
-    public string? PevnyKod3 { get; set; }
+    public PevnyKodOznacenie?[] PevneKody { get; set; } = new PevnyKodOznacenie?[3];
     
     /// <summary>
     /// Rozlišení linky (POVINNÉ)

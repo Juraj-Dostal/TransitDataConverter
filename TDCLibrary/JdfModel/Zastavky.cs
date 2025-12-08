@@ -1,3 +1,5 @@
+using TDCLibrary.JdfModel.Enums;
+
 namespace TDCLibrary.JdfModel;
 
 /// <summary>
@@ -40,12 +42,8 @@ public class Zastavky
     public string Stat { get; set; }
     
     /// <summary>
-    /// Pevny kód, väzba do PevnyKod (VOLITEĽNÉ)
+    /// Pevné kódy, väzba do PevnyKod (VOLITEĽNÉ)
+    /// Pole až 6 pevných kódov
     /// </summary>
-    public string? PevnyKod1 { get; set; }
-    public string? PevnyKod2 { get; set; }
-    public string? PevnyKod3 { get; set; }
-    public string? PevnyKod4 { get; set; }
-    public string? PevnyKod5 { get; set; }
-    public string? PevnyKod6 { get; set; }
+    public PevnyKodOznacenie?[] PevneKody { get; set; } = new PevnyKodOznacenie?[6];
 }

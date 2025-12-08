@@ -18,7 +18,7 @@ public class Pevnykod
     public string Cislo { get; set; }
     
     /// <summary>
-    /// Označení pevného kódu (POVINNÉ)
+    /// Označenie pevného kódu (POVINNÉ)
     /// </summary>
     public string Oznacenie{ get; set; }
     
@@ -105,5 +105,40 @@ public static class PevnyKodExtensions
     {
         int value = Convert.ToInt32(pevnyKodOznacenie);
         return value.ToString("D5");
+    }
+    
+    /// <summary>
+    /// Konverzia z čísla (string alebo int) na enum PevnyKodOznacenie
+    /// </summary>
+    public static PevnyKodOznacenie? ZoCisla(string? cislo)
+    {
+        if (string.IsNullOrWhiteSpace(cislo))
+            return null;
+            
+        if (int.TryParse(cislo, out var intValue))
+        {
+            if (Enum.IsDefined(typeof(PevnyKodOznacenie), intValue))
+            {
+                return (PevnyKodOznacenie)intValue;
+            }
+        }
+        
+        return null;
+    }
+    
+    /// <summary>
+    /// Konverzia z čísla (int) na enum PevnyKodOznacenie
+    /// </summary>
+    public static PevnyKodOznacenie? ZoCisla(int? cislo)
+    {
+        if (!cislo.HasValue)
+            return null;
+            
+        if (Enum.IsDefined(typeof(PevnyKodOznacenie), cislo.Value))
+        {
+            return (PevnyKodOznacenie)cislo.Value;
+        }
+        
+        return null;
     }
 }

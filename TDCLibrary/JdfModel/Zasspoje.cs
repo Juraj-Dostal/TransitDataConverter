@@ -1,3 +1,5 @@
+using TDCLibrary.JdfModel.Enums;
+
 namespace TDCLibrary.JdfModel;
 
 /// <summary>
@@ -38,10 +40,10 @@ public class Zasspoje
     public string? CisloStanoviste { get; set; }
     
     /// <summary>
-    /// Pevný kód (NEPOVINNÉ)
+    /// Pevné kódy (NEPOVINNÉ)
+    /// Pole až 2 pevných kódov
     /// </summary>
-    public string? PevnyKod1 { get; set; }
-    public string? PevnyKod2 { get; set; }
+    public PevnyKodOznacenie?[] PevneKody { get; set; } = new PevnyKodOznacenie?[2];
     
     /// <summary>
     /// Kilometry (VOLITEĽNÉ)

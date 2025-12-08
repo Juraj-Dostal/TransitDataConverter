@@ -184,6 +184,7 @@ public class MainViewModel : ReactiveObject
     public ReactiveCommand<Unit, Unit> LoadDataCommand { get; }
     public ReactiveCommand<Unit, Unit> SaveDataCommand { get; }
     public ReactiveCommand<Unit, Unit> SelectConvertFolderCommand { get; }
+    public ReactiveCommand<Unit, Unit> ConvertToJdfCommand { get; }
 
     public MainViewModel()
     {
@@ -194,6 +195,7 @@ public class MainViewModel : ReactiveObject
         SelectConvertFolderCommand = ReactiveCommand.CreateFromTask(SelectConvertFolderAsync, outputScheduler: ui);
         LoadDataCommand = ReactiveCommand.CreateFromTask(LoadDataAsync, outputScheduler: ui);
         SaveDataCommand = ReactiveCommand.CreateFromTask(SaveDataAsync, outputScheduler: ui);
+        ConvertToJdfCommand = ReactiveCommand.CreateFromTask(ConvertToJdfAsync, outputScheduler: ui);
         
         // Set default selection to Agency
         SelectedDataType = DataTypeItems[0];
@@ -256,9 +258,7 @@ public class MainViewModel : ReactiveObject
 
             var loader = new GtfsLoader(SelectedFolder);
             var loadedData = await Task.Run(() => loader.LoadAll());
-
-            Console.WriteLine($"DEBUG: Loaded {loadedData.Agencies.Count} agencies, {loadedData.Routes.Count} routes, {loadedData.Stops.Count} stops");
-
+            
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 Data = loadedData;
@@ -268,7 +268,6 @@ public class MainViewModel : ReactiveObject
                 SelectedDataType = null; // Reset
                 SelectedDataType = currentSelection; // Re-apply to trigger UpdateCurrentView
 
-                Console.WriteLine($"DEBUG: Data assigned. Current view type: {SelectedDataType?.DataType}");
                 StatusMessage = $"Načítané:{Data.Routes.Count} routes, ";
             });
         }
@@ -338,11 +337,11 @@ public class MainViewModel : ReactiveObject
                 StatusMessage = "Konvertujem GTFS do JDF...";
             });
 
-            JdfData jdfData = null;
+            JdfData? jdfData = null;
             await Task.Run(() =>
             {
                 jdfData = Gtfs2Jdf.Convert(Data);
-                var writer = new JdfWriter(ConvertFolder);
+                var writer = new JdfWriter(ConvertFolder!);
                 writer.WriteAll(jdfData);
             });
 
@@ -351,11 +350,14 @@ public class MainViewModel : ReactiveObject
                 StatusMessage = "Konverzia dokončená!";
                 
                 // Open JDF window with converted data
-                var jdfWindow = new JdfWindow();
-                var viewModel = new JdfViewModel();
-                viewModel.LoadJdfData(jdfData, ConvertFolder);
-                jdfWindow.DataContext = viewModel;
-                jdfWindow.Show();
+                if (jdfData != null)
+                {
+                    var jdfWindow = new JdfWindow();
+                    var viewModel = new JdfViewModel();
+                    viewModel.LoadJdfData(jdfData, ConvertFolder!);
+                    jdfWindow.DataContext = viewModel;
+                    jdfWindow.Show();
+                }
             });
         }
         catch (Exception ex)

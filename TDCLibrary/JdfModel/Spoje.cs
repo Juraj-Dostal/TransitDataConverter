@@ -1,3 +1,5 @@
+using TDCLibrary.JdfModel.Enums;
+
 namespace TDCLibrary.JdfModel;
 
 /// <summary>
@@ -18,18 +20,10 @@ public class Spoje
     public int Cislo { get; set; }
     
     /// <summary>
-    /// Pevny kód (NEPOVINNÉ)
+    /// Pevné kódy (NEPOVINNÉ)
+    /// Pole až 10 pevných kódov
     /// </summary>
-    public int? PevnyKod1 { get; set; }
-    public int? PevnyKod2 { get; set; }
-    public int? PevnyKod3 { get; set; }
-    public int? PevnyKod4 { get; set; }
-    public int? PevnyKod5 { get; set; }
-    public int? PevnyKod6 { get; set; }
-    public int? PevnyKod7 { get; set; }
-    public int? PevnyKod8 { get; set; }
-    public int? PevnyKod9 { get; set; }
-    public int? PevnyKod10 { get; set; }
+    public PevnyKodOznacenie?[] PevneKody { get; set; } = new PevnyKodOznacenie?[10];
     
     /// <summary>
     /// Kód skupiny spojů (NEPOVINNÉ)

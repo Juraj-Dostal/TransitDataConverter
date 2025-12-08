@@ -311,21 +311,24 @@ public class JdfLoader
     
     private Zastavky ParseZastavky(Dictionary<string, string> row)
     {
-        return new Zastavky
+        var zastavka = new Zastavky
         {
             Cislo = ParseIntRequired(GetValue(row, "CisloZastavky")),
             NazovObce = GetValue(row, "NazovObce"),
             CastObce = GetValue(row, "CastObce"),
             BlizkeMiesto = GetValue(row, "BlizkeMiesto"),
             BlizkaObec = GetValue(row, "BlizkaObec"),
-            Stat = GetValue(row, "Stat"),
-            PevnyKod1 = GetValue(row, "PevnyKod1"),
-            PevnyKod2 = GetValue(row, "PevnyKod2"),
-            PevnyKod3 = GetValue(row, "PevnyKod3"),
-            PevnyKod4 = GetValue(row, "PevnyKod4"),
-            PevnyKod5 = GetValue(row, "PevnyKod5"),
-            PevnyKod6 = GetValue(row, "PevnyKod6")
+            Stat = GetValue(row, "Stat")
         };
+        
+        // Načítaj pevné kódy do poľa ako enum
+        for (int i = 0; i < 6; i++)
+        {
+            var value = GetValue(row, $"PevnyKod{i + 1}");
+            zastavka.PevneKody[i] = PevnyKodExtensions.ZoCisla(value);
+        }
+        
+        return zastavka;
     }
     
     private Linky ParseLinky(Dictionary<string, string> row)
@@ -353,44 +356,49 @@ public class JdfLoader
     
     private Zaslinky ParseZaslinky(Dictionary<string, string> row)
     {
-        return new Zaslinky
+        var zaslinka = new Zaslinky
         {
             CisloLinky = ParseIntRequired(GetValue(row, "CisloLinky")),
             CisloTarifni = ParseIntRequired(GetValue(row, "CisloTarifni")),
             TarifniPasmo = GetValue(row, "TarifniPasmo"),
             CisloZastavky = ParseIntRequired(GetValue(row, "CisloZastavky")),
             PriemernaDoba = GetValue(row, "PriemernaDoba"),
-            PevnyKod1 = GetValue(row, "PevnyKod1"),
-            PevnyKod2 = GetValue(row, "PevnyKod2"),
-            PevnyKod3 = GetValue(row, "PevnyKod3"),
             RozlisenieLinky = ParseIntRequired(GetValue(row, "RozlisenieLinky"))
         };
+        
+        // Načítaj pevné kódy do poľa ako enum
+        for (int i = 0; i < 3; i++)
+        {
+            var value = GetValue(row, $"PevnyKod{i + 1}");
+            zaslinka.PevneKody[i] = PevnyKodExtensions.ZoCisla(value);
+        }
+        
+        return zaslinka;
     }
     
     private Spoje ParseSpoje(Dictionary<string, string> row)
     {
-        return new Spoje
+        var spoj = new Spoje
         {
             CisloLinky = ParseIntRequired(GetValue(row, "CisloLinky")),
             Cislo = ParseIntRequired(GetValue(row, "CisloSpoje")),
-            PevnyKod1 = ParseInt(GetValue(row, "PevnyKod1")),
-            PevnyKod2 = ParseInt(GetValue(row, "PevnyKod2")),
-            PevnyKod3 = ParseInt(GetValue(row, "PevnyKod3")),
-            PevnyKod4 = ParseInt(GetValue(row, "PevnyKod4")),
-            PevnyKod5 = ParseInt(GetValue(row, "PevnyKod5")),
-            PevnyKod6 = ParseInt(GetValue(row, "PevnyKod6")),
-            PevnyKod7 = ParseInt(GetValue(row, "PevnyKod7")),
-            PevnyKod8 = ParseInt(GetValue(row, "PevnyKod8")),
-            PevnyKod9 = ParseInt(GetValue(row, "PevnyKod9")),
-            PevnyKod10 = ParseInt(GetValue(row, "PevnyKod10")),
             KodSkupinySpoju = ParseInt(GetValue(row, "KodSkupinySpoju")),
             RozliseniLinky = ParseIntRequired(GetValue(row, "RozliseniLinky"))
         };
+        
+        // Načítaj pevné kódy do poľa ako enum
+        for (int i = 0; i < 10; i++)
+        {
+            var value = GetValue(row, $"PevnyKod{i + 1}");
+            spoj.PevneKody[i] = PevnyKodExtensions.ZoCisla(ParseInt(value));
+        }
+        
+        return spoj;
     }
     
     private Zasspoje ParseZasspoje(Dictionary<string, string> row)
     {
-        return new Zasspoje
+        var zasspoj = new Zasspoje
         {
             CisloLinky = ParseIntRequired(GetValue(row, "CisloLinky")),
             CisloSpoje = ParseIntRequired(GetValue(row, "CisloSpoje")),
@@ -398,13 +406,20 @@ public class JdfLoader
             CisloZastavky = ParseIntRequired(GetValue(row, "CisloZastavky")),
             KodOznacniku = ParseInt(GetValue(row, "KodOznacniku")),
             CisloStanoviste = GetValue(row, "CisloStanoviste"),
-            PevnyKod1 = GetValue(row, "PevnyKod1"),
-            PevnyKod2 = GetValue(row, "PevnyKod2"),
             Kilometry = ParseDecimal(GetValue(row, "Kilometry")),
             CasPrichodu = GetValue(row, "CasPrichodu"),
             CasOdchodu = GetValue(row, "CasOdchodu"),
             RozlisenieLinky = ParseIntRequired(GetValue(row, "RozlisenieLinky"))
         };
+        
+        // Načítaj pevné kódy do poľa ako enum
+        for (int i = 0; i < 2; i++)
+        {
+            var value = GetValue(row, $"PevnyKod{i + 1}");
+            zasspoj.PevneKody[i] = PevnyKodExtensions.ZoCisla(value);
+        }
+        
+        return zasspoj;
     }
     
     private Caskody ParseCaskody(Dictionary<string, string> row)
