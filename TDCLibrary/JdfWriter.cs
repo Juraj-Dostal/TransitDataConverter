@@ -2,6 +2,7 @@ using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
 using TDCLibrary.JdfModel;
+using TDCLibrary.ConvertorModel;
 
 namespace TDCLibrary;
 
@@ -49,7 +50,7 @@ public class JdfWriter
             WriteOznacniky(data.Oznacniky);
     }
     
-    private void WriteCsv<T>(string fileName, IEnumerable<T> records, Action<CsvWriter, T> map, string[] header)
+    private void WriteCsv<T>(string fileName, IEnumerable<T> records, Action<CsvWriter, T> map)
     {
         var path = Path.Combine(_directory, fileName);
         using var writer = new StreamWriter(path, false); // JDF používa windows-1250
@@ -61,14 +62,7 @@ public class JdfWriter
         };
         using var csv = new CsvWriter(writer, cfg);
         
-        // Zapíš hlavičku
-        foreach (var h in header)
-        {
-            csv.WriteField(h);
-        }
-        csv.NextRecord();
-        
-        // Zapíš záznamy
+        // Zapíš záznamy (bez hlavičky)
         foreach (var r in records)
         {
             map(csv, r);
@@ -86,7 +80,7 @@ public class JdfWriter
             csv.WriteField(v.IdentikaciaDat ?? "");
             csv.WriteField(v.DatumVyrobyDat);
             csv.WriteField(v.Meno ?? "");
-        }, new[] { "VerziaJDF", "CisloDU", "OkresKraj", "IdentikaciaDat", "DatumVyrobyDat", "Meno" });
+        });
     }
     
     private void WriteDopravci(List<Dopravci> dopravci)
@@ -106,8 +100,7 @@ public class JdfWriter
             csv.WriteField(d.Email ?? "");
             csv.WriteField(d.Web ?? "");
             csv.WriteField(d.RozlisenieDopravcu.ToString());
-        }, new[] { "IC", "DIC", "ObchodneMeno", "DruhFirmy", "MenoFyzOsoby", "Sidlo", "TelefonSidlo", 
-                   "TelefonDispecink", "TelefonInformace", "Fax", "Email", "Web", "RozlisenieDopravcu" });
+        });
     }
     
     private void WriteZastavky(List<Zastavky> zastavky)
@@ -125,8 +118,7 @@ public class JdfWriter
             {
                 csv.WriteField(z.PevneKody[i].HasValue ? PevnyKodExtensions.DajCislo(z.PevneKody[i].Value) : "");
             }
-        }, new[] { "CisloZastavky", "NazovObce", "CastObce", "BlizkeMiesto", "BlizkaObec", "Stat", 
-                   "PevnyKod1", "PevnyKod2", "PevnyKod3", "PevnyKod4", "PevnyKod5", "PevnyKod6" });
+        });
     }
     
     private void WriteLinky(List<Linky> linky)
@@ -136,8 +128,8 @@ public class JdfWriter
             csv.WriteField(l.Cislo.ToString("D6"));
             csv.WriteField(l.Nazov);
             csv.WriteField(l.IcDopravce);
-            csv.WriteField(((int)l.Typ).ToString());
-            csv.WriteField(((int)l.DopravnyProstriedok).ToString());
+            csv.WriteField(EnumExtension.GetDescription(l.Typ));
+            csv.WriteField(EnumExtension.GetDescription(l.DopravnyProstriedok));
             csv.WriteField(l.ObjizdkovyJR ? "1" : "0");
             csv.WriteField(l.SeskupenieSpojov ? "1" : "0");
             csv.WriteField(l.PouzitieOznacnikov ? "1" : "0");
@@ -149,10 +141,7 @@ public class JdfWriter
             csv.WriteField(l.PlatnostJRDo);
             csv.WriteField(l.RozlisenieDopravcu.ToString());
             csv.WriteField(l.RozlisenieLinky.ToString());
-        }, new[] { "Cislo", "Nazov", "IcDopravce", "Typ", "DopravnyProstriedok", "ObjizdkovyJR", 
-                   "SeskupenieSpojov", "PouzitieOznacnikov", "Rezerva", "CisloLicencie", 
-                   "PlatnostLicencieOd", "PlatnostLicencieDo", "PlatnostJROd", "PlatnostJRDo", 
-                   "RozlisenieDopravcu", "RozlisenieLinky" });
+        });
     }
     
     private void WriteZaslinky(List<Zaslinky> zaslinky)
@@ -170,8 +159,7 @@ public class JdfWriter
                 csv.WriteField(z.PevneKody[i].HasValue ? PevnyKodExtensions.DajCislo(z.PevneKody[i].Value) : "");
             }
             csv.WriteField(z.RozlisenieLinky.ToString());
-        }, new[] { "CisloLinky", "CisloTarifni", "TarifniPasmo", "CisloZastavky", "PriemernaDoba", 
-                   "PevnyKod1", "PevnyKod2", "PevnyKod3", "RozlisenieLinky" });
+        });
     }
     
     private void WriteSpoje(List<Spoje> spoje)
@@ -187,9 +175,7 @@ public class JdfWriter
             }
             csv.WriteField(s.KodSkupinySpoju?.ToString() ?? "");
             csv.WriteField(s.RozliseniLinky.ToString());
-        }, new[] { "CisloLinky", "CisloSpoje", "PevnyKod1", "PevnyKod2", "PevnyKod3", "PevnyKod4", 
-                   "PevnyKod5", "PevnyKod6", "PevnyKod7", "PevnyKod8", "PevnyKod9", "PevnyKod10", 
-                   "KodSkupinySpoju", "RozliseniLinky" });
+        });
     }
     
     private void WriteZasspoje(List<Zasspoje> zasspoje)
@@ -211,9 +197,7 @@ public class JdfWriter
             csv.WriteField(z.CasPrichodu);
             csv.WriteField(z.CasOdchodu ?? "");
             csv.WriteField(z.RozlisenieLinky.ToString());
-        }, new[] { "CisloLinky", "CisloSpoje", "CisloTarifni", "CisloZastavky", "KodOznacniku", 
-                   "CisloStanoviste", "PevnyKod1", "PevnyKod2", "Kilometry", "CasPrichodu", 
-                   "CasOdchodu", "RozlisenieLinky" });
+        });
     }
     
     private void WriteCaskody(List<Caskody> caskody)
@@ -223,14 +207,13 @@ public class JdfWriter
             csv.WriteField(c.CisloLinky.ToString("D6"));
             csv.WriteField(c.CisloSpoje.ToString());
             csv.WriteField(c.Cislo.ToString());
-            csv.WriteField(c.Oznacenie);
-            csv.WriteField(c.Typ?.ToString() ?? "");
+            csv.WriteField(c.Oznacenie.ToString());
+            csv.WriteField(c.Typ.HasValue ? ((int)c.Typ.Value).ToString() : "");
             csv.WriteField(c.DatumOd ?? "");
             csv.WriteField(c.DatumDo ?? "");
             csv.WriteField(c.Poznamka ?? "");
             csv.WriteField(c.RozlisenieLinky.ToString());
-        }, new[] { "CisloLinky", "CisloSpoje", "Cislo", "Oznacenie", "Typ", "DatumOd", "DatumDo", 
-                   "Poznamka", "RozlisenieLinky" });
+        });
     }
     
     private void WritePevnyKod(List<Pevnykod> pevnykod)
@@ -240,7 +223,7 @@ public class JdfWriter
             csv.WriteField(p.Cislo);
             csv.WriteField(p.Oznacenie);
             csv.WriteField(p.Rezerva ?? "");
-        }, new[] { "Cislo", "Oznacenie", "Rezerva" });
+        });
     }
     
     private void WriteOznacniky(List<Oznacniky> oznacniky)
@@ -253,6 +236,6 @@ public class JdfWriter
             csv.WriteField(o.SmerPopis ?? "");
             csv.WriteField(o.Stanoviste ?? "");
             csv.WriteField(o.Rezerva ?? "");
-        }, new[] { "CisloZastavky", "KodOznacniku", "Nazov", "SmerPopis", "Stanoviste", "Rezerva" });
+        });
     }
 }

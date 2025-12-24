@@ -48,13 +48,15 @@ public class Gtfs2Jdf
             {
                 continue;
             }
+
+            var nazov = StopExtension.SplitStopName(stop.StopName);
             
             var zastavka = new Zastavky
             {
                 Cislo = id.CisloZastavky,
-                NazovObce = "BA", // Todo: vyriesit ze uzivatel zada
-                BlizkeMiesto = stop.StopName,
-                Stat = "SK", // Todo: vyriesit ze uzivatel zada
+                NazovObce = nazov.Obec, 
+                BlizkeMiesto = nazov.BlizkeMiesto,
+                Stat = "SK", 
             };
             
             // Nastav pevný kód pre bezbariérovosť, ak je dostupný
@@ -83,6 +85,7 @@ public class Gtfs2Jdf
                 CisloZastavky = id.CisloZastavky,
                 KodOznacniku = id.KodOznaciku,
                 Nazov = stop.StopName,
+                Stanoviste = stop.PlatformCode
             };
             
             oznacnikyList.Add(oznacniky);
@@ -104,7 +107,7 @@ public class Gtfs2Jdf
                 ObchodnéMeno = agency.AgencyName,
                 DruhFirmy = DruhFirmy.PravnickaOsoba, 
                 MenoFyzOsoby = null,
-                Sidlo = "Adresa dopravcu",
+                Sidlo = "",
                 TelefonSidlo = agency.AgencyPhone ?? "000000000", 
                 TelefonDispecink = null,
                 TelefonInformace = null,
@@ -133,16 +136,16 @@ public class Gtfs2Jdf
                 IcDopravce = route.AgencyId?.ToString() ?? "0",
                 Typ = TypLinky.VnitrastatniVnitrokrajska, 
                 DopravnyProstriedok = RouteTypeExtension.ToDopravnyProstriedok(route.RouteType), 
-                ObjizdkovyJR = true, // ToDo: Otazne
-                SeskupenieSpojov = false, // ToDo: Otazne
-                PouzitieOznacnikov = true, // ToDo: Otazne
+                ObjizdkovyJR = true, 
+                SeskupenieSpojov = false, 
+                PouzitieOznacnikov = true, 
                 Rezerva = null,
                 CisloLicencie = RouteExtension.ToRouteId(route.RouteId).ToString(),
                 PlatnostLicencieOd = null,
                 PlatnostLicencieDo = null,
                 PlatnostJROd = DateOnly.MinValue.ToString("ddMMyyyy"), // Todo: zada uzivatel 
                 PlatnostJRDo = null,
-                RozlisenieDopravcu = int.Parse(route.AgencyId),
+                RozlisenieDopravcu = 1,
                 RozlisenieLinky = 1
             };
             linkyList.Add(linka);
@@ -166,10 +169,10 @@ public class Gtfs2Jdf
             {
                 CisloLinky =  RouteExtension.FindRouteIdFromTripId(gtfsData.Trips, stopTime.TripId),
                 CisloTarifni = stopTime.StopSequence,
-                TarifniPasmo = "100", // Todo: tarifne info
+                TarifniPasmo = "100", 
                 CisloZastavky = StopExtension.SplitStopId(stopTime.StopId).CisloZastavky,
                 PriemernaDoba = null,
-                RozlisenieLinky = int.Parse(stopTime.TripId), // Todo: zada uzivatel
+                RozlisenieLinky = 1, 
             };
 
             zaslinka.PevneKody[0] = PevnyKodOznacenie.ZastavkaNaZiadost;
@@ -214,7 +217,6 @@ public class Gtfs2Jdf
         return spojeList;
     }
 
-    
     public static List<Zasspoje> ConvertZasspoje(GtfsData gtfsData)
     {
         var zasspojeList = new List<Zasspoje>();
@@ -242,6 +244,8 @@ public class Gtfs2Jdf
             for (int i = 0; i < stopTimes.Count; i++)
             {
                 var stopTime = stopTimes[i];
+                var stop = gtfsData.Stops.FirstOrDefault(s => s.StopId == stopTime.StopId);
+                var id = StopExtension.SplitStopId(stop.StopId);
                 int tarifniCislo = isOppositeDirection ? totalStops - i : i + 1;
 
                 var zasspoj = new Zasspoje
@@ -249,13 +253,13 @@ public class Gtfs2Jdf
                     CisloLinky = RouteExtension.FindRouteIdFromTripId(gtfsData.Trips, stopTime.TripId),
                     CisloSpoje = int.Parse(stopTime.TripId),
                     CisloTarifni = tarifniCislo,
-                    CisloZastavky = StopExtension.SplitStopId(stopTime.StopId).CisloZastavky,
-                    KodOznacniku = null,
-                    CisloStanoviste = null,
+                    CisloZastavky = id.CisloZastavky,
+                    KodOznacniku = id.KodOznaciku,
+                    CisloStanoviste = stop.PlatformCode,
                     Kilometry = null,
                     CasPrichodu = Zasspoje.ConvertTime(stopTime.ArrivalTime),
                     CasOdchodu = Zasspoje.ConvertTime(stopTime.DepartureTime),
-                    RozlisenieLinky = int.Parse(stopTime.TripId),
+                    RozlisenieLinky = 1,
                 };
 
                 zasspojeList.Add(zasspoj);
@@ -263,6 +267,63 @@ public class Gtfs2Jdf
         }
         
         return zasspojeList;
+    }
+
+    public static List<Caskody> ConvertCasKodu(GtfsData gtfsData)
+    {
+        var caskodyList = new List<Caskody>();
+        
+        int casovyKodCounter = 1;
+        var serviceToSpoje = gtfsData.Trips
+            .GroupBy(t => t.ServiceId)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        
+        foreach (var cal in gtfsData.Calendars)
+        {
+            if (!serviceToSpoje.ContainsKey(cal.ServiceId)) continue;
+
+            foreach (var service in serviceToSpoje[cal.ServiceId])
+            {
+                caskodyList.Add(new Caskody
+                {
+                    CisloLinky = int.Parse(service.RouteId),
+                    CisloSpoje = int.Parse(service.TripId),
+                    Cislo = casovyKodCounter,
+                    Oznacenie = 10 + (casovyKodCounter % 10), 
+                    Typ = TypCasKod.Jede , // "jede"
+                    DatumOd = cal.StartDate,
+                    DatumDo = cal.EndDate,
+                    Poznamka = null,
+                    RozlisenieLinky = 1
+                });
+                casovyKodCounter++;
+            }
+        }
+        
+        foreach (var calDate in gtfsData.CalendarDates)
+        {
+            if (!serviceToSpoje.ContainsKey(calDate.ServiceId)) continue;
+
+            foreach (var service in serviceToSpoje[calDate.ServiceId])
+            {
+                caskodyList.Add(new Caskody
+                {
+                    CisloLinky = int.Parse(service.RouteId),
+                    CisloSpoje = int.Parse(service.TripId),
+                    Cislo = casovyKodCounter,
+                    Oznacenie = 10 + (casovyKodCounter % 10), 
+                    Typ = CalendarExtension.ToTypCasKod(calDate.ExceptionType) , 
+                    DatumOd = calDate.Date,
+                    DatumDo = calDate.Date,
+                    Poznamka = null,
+                    RozlisenieLinky = 1
+                });
+                casovyKodCounter++;
+            }
+        }
+
+        return caskodyList;
     }
     
     

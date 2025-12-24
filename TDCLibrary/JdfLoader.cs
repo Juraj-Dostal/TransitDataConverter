@@ -150,7 +150,7 @@ public class JdfLoader
         
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            HasHeaderRecord = true,
+            HasHeaderRecord = false, // JDF súbory nemajú hlavičku
             TrimOptions = TrimOptions.Trim,
             MissingFieldFound = null, // Ignoruj chýbajúce polia
             BadDataFound = null, // Ignoruj chybné dáta
@@ -158,32 +158,25 @@ public class JdfLoader
             Quote = '"' // JDF používa úvodzovky okolo hodnôt
         };
         
-        using var reader = new StreamReader(filePath, System.Text.Encoding.GetEncoding("windows-1250")); // JDF používa windows-1250
+        using var reader = new StreamReader(filePath); 
         using var csv = new CsvReader(reader, config);
         
-        // Prečítaj hlavičku
-        csv.Read();
-        csv.ReadHeader();
-        var headers = csv.HeaderRecord;
-        
-        if (headers == null || headers.Length == 0)
-        {
-            return results;
-        }
-        
-        // Prečítaj všetky riadky
+        // Prečítaj všetky riadky (bez hlavičky)
         while (csv.Read())
         {
             try
             {
                 var row = new Dictionary<string, string>();
                 
-                foreach (var header in headers)
+                // Prečítaj všetky polia v riadku podľa indexu
+                int fieldCount = csv.Parser.Count;
+                for (int i = 0; i < fieldCount; i++)
                 {
-                    var value = csv.GetField(header) ?? string.Empty;
+                    var value = csv.GetField(i) ?? string.Empty;
                     // Odstráň úvodzovky, ak sú prítomné
                     value = value.Trim('"').Trim();
-                    row[header] = value;
+                    // Použij index ako kľúč
+                    row[i.ToString()] = value;
                 }
                 
                 var item = parser(row);
@@ -280,12 +273,12 @@ public class JdfLoader
     {
         return new VerzeJDF
         {
-            VerziaJDF = GetValue(row, "VerziaJDF"),
-            CisloDU = ParseInt(GetValue(row, "CisloDU")),
-            OkresKraj = GetValue(row, "OkresKraj"),
-            IdentikaciaDat = GetValue(row, "IdentikaciaDat"),
-            DatumVyrobyDat = GetValue(row, "DatumVyrobyDat"),
-            Meno = GetValue(row, "Meno")
+            VerziaJDF = GetValue(row, "0"),
+            CisloDU = ParseInt(GetValue(row, "1")),
+            OkresKraj = GetValue(row, "2"),
+            IdentikaciaDat = GetValue(row, "3"),
+            DatumVyrobyDat = GetValue(row, "4"),
+            Meno = GetValue(row, "5")
         };
     }
     
@@ -293,19 +286,19 @@ public class JdfLoader
     {
         return new Dopravci
         {
-            IC = GetValue(row, "IC"),
-            DIC = GetValue(row, "DIC"),
-            ObchodnéMeno = GetValue(row, "ObchodneMeno"),
-            DruhFirmy = ParseEnumRequired(GetValue(row, "DruhFirmy"), DruhFirmy.PravnickaOsoba),
-            MenoFyzOsoby = GetValue(row, "MenoFyzOsoby"),
-            Sidlo = GetValue(row, "Sidlo"),
-            TelefonSidlo = GetValue(row, "TelefonSidlo"),
-            TelefonDispecink = GetValue(row, "TelefonDispecink"),
-            TelefonInformace = GetValue(row, "TelefonInformace"),
-            Fax = GetValue(row, "Fax"),
-            Email = GetValue(row, "Email"),
-            Web = GetValue(row, "Web"),
-            RozlisenieDopravcu = ParseIntRequired(GetValue(row, "RozlisenieDopravcu"))
+            IC = GetValue(row, "0"),
+            DIC = GetValue(row, "1"),
+            ObchodnéMeno = GetValue(row, "2"),
+            DruhFirmy = ParseEnumRequired(GetValue(row, "3"), DruhFirmy.PravnickaOsoba),
+            MenoFyzOsoby = GetValue(row, "4"),
+            Sidlo = GetValue(row, "5"),
+            TelefonSidlo = GetValue(row, "6"),
+            TelefonDispecink = GetValue(row, "7"),
+            TelefonInformace = GetValue(row, "8"),
+            Fax = GetValue(row, "9"),
+            Email = GetValue(row, "10"),
+            Web = GetValue(row, "11"),
+            RozlisenieDopravcu = ParseIntRequired(GetValue(row, "12"))
         };
     }
     
@@ -313,18 +306,18 @@ public class JdfLoader
     {
         var zastavka = new Zastavky
         {
-            Cislo = ParseIntRequired(GetValue(row, "CisloZastavky")),
-            NazovObce = GetValue(row, "NazovObce"),
-            CastObce = GetValue(row, "CastObce"),
-            BlizkeMiesto = GetValue(row, "BlizkeMiesto"),
-            BlizkaObec = GetValue(row, "BlizkaObec"),
-            Stat = GetValue(row, "Stat")
+            Cislo = ParseIntRequired(GetValue(row, "0")),
+            NazovObce = GetValue(row, "1"),
+            CastObce = GetValue(row, "2"),
+            BlizkeMiesto = GetValue(row, "3"),
+            BlizkaObec = GetValue(row, "4"),
+            Stat = GetValue(row, "5")
         };
         
         // Načítaj pevné kódy do poľa ako enum
         for (int i = 0; i < 6; i++)
         {
-            var value = GetValue(row, $"PevnyKod{i + 1}");
+            var value = GetValue(row, $"{i + 6}");
             zastavka.PevneKody[i] = PevnyKodExtensions.ZoCisla(value);
         }
         
@@ -335,22 +328,22 @@ public class JdfLoader
     {
         return new Linky
         {
-            Cislo = ParseIntRequired(GetValue(row, "Cislo")),
-            Nazov = GetValue(row, "Nazov"),
-            IcDopravce = GetValue(row, "IcDopravce"),
-            Typ = ParseEnumRequired(GetValue(row, "Typ"), TypLinky.Mestska),
-            DopravnyProstriedok = ParseEnumRequired(GetValue(row, "DopravnyProstriedok"), DopravnyProstriedok.Autobus),
-            ObjizdkovyJR = ParseBool(GetValue(row, "ObjizdkovyJR")),
-            SeskupenieSpojov = ParseBool(GetValue(row, "SeskupenieSpojov")),
-            PouzitieOznacnikov = ParseBool(GetValue(row, "PouzitieOznacnikov")),
-            Rezerva = GetValue(row, "Rezerva"),
-            CisloLicencie = GetValue(row, "CisloLicencie"),
-            PlatnostLicencieOd = GetValue(row, "PlatnostLicencieOd"),
-            PlatnostLicencieDo = GetValue(row, "PlatnostLicencieDo"),
-            PlatnostJROd = GetValue(row, "PlatnostJROd"),
-            PlatnostJRDo = GetValue(row, "PlatnostJRDo"),
-            RozlisenieDopravcu = ParseIntRequired(GetValue(row, "RozlisenieDopravcu")),
-            RozlisenieLinky = ParseIntRequired(GetValue(row, "RozlisenieLinky"))
+            Cislo = ParseIntRequired(GetValue(row, "0")),
+            Nazov = GetValue(row, "1"),
+            IcDopravce = GetValue(row, "2"),
+            Typ = ParseEnumRequired(GetValue(row, "3"), TypLinky.Mestska),
+            DopravnyProstriedok = ParseEnumRequired(GetValue(row, "4"), DopravnyProstriedok.Autobus),
+            ObjizdkovyJR = ParseBool(GetValue(row, "5")),
+            SeskupenieSpojov = ParseBool(GetValue(row, "6")),
+            PouzitieOznacnikov = ParseBool(GetValue(row, "7")),
+            Rezerva = GetValue(row, "8"),
+            CisloLicencie = GetValue(row, "9"),
+            PlatnostLicencieOd = GetValue(row, "10"),
+            PlatnostLicencieDo = GetValue(row, "11"),
+            PlatnostJROd = GetValue(row, "12"),
+            PlatnostJRDo = GetValue(row, "13"),
+            RozlisenieDopravcu = ParseIntRequired(GetValue(row, "14")),
+            RozlisenieLinky = ParseIntRequired(GetValue(row, "15"))
         };
     }
     
@@ -358,18 +351,18 @@ public class JdfLoader
     {
         var zaslinka = new Zaslinky
         {
-            CisloLinky = ParseIntRequired(GetValue(row, "CisloLinky")),
-            CisloTarifni = ParseIntRequired(GetValue(row, "CisloTarifni")),
-            TarifniPasmo = GetValue(row, "TarifniPasmo"),
-            CisloZastavky = ParseIntRequired(GetValue(row, "CisloZastavky")),
-            PriemernaDoba = GetValue(row, "PriemernaDoba"),
-            RozlisenieLinky = ParseIntRequired(GetValue(row, "RozlisenieLinky"))
+            CisloLinky = ParseIntRequired(GetValue(row, "0")),
+            CisloTarifni = ParseIntRequired(GetValue(row, "1")),
+            TarifniPasmo = GetValue(row, "2"),
+            CisloZastavky = ParseIntRequired(GetValue(row, "3")),
+            PriemernaDoba = GetValue(row, "4"),
+            RozlisenieLinky = ParseIntRequired(GetValue(row, "8"))
         };
         
         // Načítaj pevné kódy do poľa ako enum
         for (int i = 0; i < 3; i++)
         {
-            var value = GetValue(row, $"PevnyKod{i + 1}");
+            var value = GetValue(row, $"{i + 5}");
             zaslinka.PevneKody[i] = PevnyKodExtensions.ZoCisla(value);
         }
         
@@ -380,16 +373,16 @@ public class JdfLoader
     {
         var spoj = new Spoje
         {
-            CisloLinky = ParseIntRequired(GetValue(row, "CisloLinky")),
-            Cislo = ParseIntRequired(GetValue(row, "CisloSpoje")),
-            KodSkupinySpoju = ParseInt(GetValue(row, "KodSkupinySpoju")),
-            RozliseniLinky = ParseIntRequired(GetValue(row, "RozliseniLinky"))
+            CisloLinky = ParseIntRequired(GetValue(row, "0")),
+            Cislo = ParseIntRequired(GetValue(row, "1")),
+            KodSkupinySpoju = ParseInt(GetValue(row, "12")),
+            RozliseniLinky = ParseIntRequired(GetValue(row, "13"))
         };
         
         // Načítaj pevné kódy do poľa ako enum
         for (int i = 0; i < 10; i++)
         {
-            var value = GetValue(row, $"PevnyKod{i + 1}");
+            var value = GetValue(row, $"{i + 2}");
             spoj.PevneKody[i] = PevnyKodExtensions.ZoCisla(ParseInt(value));
         }
         
@@ -400,22 +393,22 @@ public class JdfLoader
     {
         var zasspoj = new Zasspoje
         {
-            CisloLinky = ParseIntRequired(GetValue(row, "CisloLinky")),
-            CisloSpoje = ParseIntRequired(GetValue(row, "CisloSpoje")),
-            CisloTarifni = ParseIntRequired(GetValue(row, "CisloTarifni")),
-            CisloZastavky = ParseIntRequired(GetValue(row, "CisloZastavky")),
-            KodOznacniku = ParseInt(GetValue(row, "KodOznacniku")),
-            CisloStanoviste = GetValue(row, "CisloStanoviste"),
-            Kilometry = ParseDecimal(GetValue(row, "Kilometry")),
-            CasPrichodu = GetValue(row, "CasPrichodu"),
-            CasOdchodu = GetValue(row, "CasOdchodu"),
-            RozlisenieLinky = ParseIntRequired(GetValue(row, "RozlisenieLinky"))
+            CisloLinky = ParseIntRequired(GetValue(row, "0")),
+            CisloSpoje = ParseIntRequired(GetValue(row, "1")),
+            CisloTarifni = ParseIntRequired(GetValue(row, "2")),
+            CisloZastavky = ParseIntRequired(GetValue(row, "3")),
+            KodOznacniku = ParseInt(GetValue(row, "4")),
+            CisloStanoviste = GetValue(row, "5"),
+            Kilometry = ParseDecimal(GetValue(row, "8")),
+            CasPrichodu = GetValue(row, "9"),
+            CasOdchodu = GetValue(row, "10"),
+            RozlisenieLinky = ParseIntRequired(GetValue(row, "11"))
         };
         
         // Načítaj pevné kódy do poľa ako enum
         for (int i = 0; i < 2; i++)
         {
-            var value = GetValue(row, $"PevnyKod{i + 1}");
+            var value = GetValue(row, $"{i + 6}");
             zasspoj.PevneKody[i] = PevnyKodExtensions.ZoCisla(value);
         }
         
@@ -426,15 +419,15 @@ public class JdfLoader
     {
         return new Caskody
         {
-            CisloLinky = ParseIntRequired(GetValue(row, "CisloLinky")),
-            CisloSpoje = ParseIntRequired(GetValue(row, "CisloSpoje")),
-            Cislo = ParseIntRequired(GetValue(row, "Cislo")),
-            Oznacenie = GetValue(row, "Oznacenie"),
-            Typ = ParseInt(GetValue(row, "Typ")),
-            DatumOd = GetValue(row, "DatumOd"),
-            DatumDo = GetValue(row, "DatumDo"),
-            Poznamka = GetValue(row, "Poznamka"),
-            RozlisenieLinky = ParseIntRequired(GetValue(row, "RozlisenieLinky"))
+            CisloLinky = ParseIntRequired(GetValue(row, "0")),
+            CisloSpoje = ParseIntRequired(GetValue(row, "1")),
+            Cislo = ParseIntRequired(GetValue(row, "2")),
+            Oznacenie = ParseIntRequired(GetValue(row, "3")),
+            Typ = ParseEnum<TypCasKod>(GetValue(row, "4")),
+            DatumOd = GetValue(row, "5"),
+            DatumDo = GetValue(row, "6"),
+            Poznamka = GetValue(row, "7"),
+            RozlisenieLinky = ParseIntRequired(GetValue(row, "8"))
         };
     }
     
@@ -442,9 +435,9 @@ public class JdfLoader
     {
         return new Pevnykod
         {
-            Cislo = GetValue(row, "Cislo"),
-            Oznacenie = GetValue(row, "Oznacenie"),
-            Rezerva = GetValue(row, "Rezerva")
+            Cislo = GetValue(row, "0"),
+            Oznacenie = GetValue(row, "1"),
+            Rezerva = GetValue(row, "2")
         };
     }
     
@@ -452,12 +445,12 @@ public class JdfLoader
     {
         return new Oznacniky
         {
-            CisloZastavky = ParseIntRequired(GetValue(row, "CisloZastavky")),
-            KodOznacniku = ParseIntRequired(GetValue(row, "KodOznacniku")),
-            Nazov = GetValue(row, "Nazov"),
-            SmerPopis = GetValue(row, "SmerPopis"),
-            Stanoviste = GetValue(row, "Stanoviste"),
-            Rezerva = GetValue(row, "Rezerva")
+            CisloZastavky = ParseIntRequired(GetValue(row, "0")),
+            KodOznacniku = ParseIntRequired(GetValue(row, "1")),
+            Nazov = GetValue(row, "2"),
+            SmerPopis = GetValue(row, "3"),
+            Stanoviste = GetValue(row, "4"),
+            Rezerva = GetValue(row, "5")
         };
     }
 }

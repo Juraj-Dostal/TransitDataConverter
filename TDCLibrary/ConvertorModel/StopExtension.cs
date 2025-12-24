@@ -36,4 +36,26 @@ public class StopExtension
 
         return (prefix, suffix);
     }
+    
+    /// <summary>
+    /// Rozdeluje názov zastávky na časť obec a po blízke miesto.
+    /// </summary>
+    /// <param name="stopName">Celý názov zastávky (napr. "Bratislava, Patrónka")</param>
+    /// <returns>(string Obec, string BlizkeMiesto)) - tuple s časťou pred a po čiarke</returns>
+    public static (string Obec, string BlizkeMiesto) SplitStopName(string stopName)
+    {
+        if (string.IsNullOrWhiteSpace(stopName))
+        {
+            return (string.Empty, string.Empty);
+        }
+
+        var parts = stopName.Split(',', 2);
+    
+        if (parts.Length == 1)
+        {
+            return (parts[0].Trim(), string.Empty);
+        }
+
+        return (parts[0].Trim(), parts[1].Trim());
+    }
 }

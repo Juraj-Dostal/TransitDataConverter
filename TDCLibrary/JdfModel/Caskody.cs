@@ -1,3 +1,5 @@
+using TDCLibrary.JdfModel.Enums;
+
 namespace TDCLibrary.JdfModel;
 
 /// <summary>
@@ -25,12 +27,12 @@ public class Caskody
     /// <summary>
     /// Označení časového kódu (POVINNÉ)
     /// </summary>
-    public string Oznacenie { get; set; }
+    public int Oznacenie { get; set; }
     
     /// <summary>
     /// Typ časového kódu (NEPOVINNÉ)
     /// </summary>
-    public int? Typ { get; set; }
+    public TypCasKod? Typ { get; set; }
     
     /// <summary>
     /// Datum od (NEPOVINNÉ)

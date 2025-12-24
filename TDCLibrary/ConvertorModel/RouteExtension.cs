@@ -1,5 +1,7 @@
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 using TDCLibrary.GtsfModel;
+using TDCLibrary.JdfModel.Enums;
 
 namespace TDCLibrary.ConvertorModel;
 
@@ -62,4 +64,5 @@ public class RouteExtension
         
         return trip;
     }
+    
 }
