@@ -4,6 +4,9 @@ public class StopExtension
 {
     /// <summary>
     /// Rozdeluje id zastavky z gtfs na jdf z BA dát. Nemusi byť všeobečné riešenie.
+    /// Podporuje formáty:
+    /// - "U488Z1" -> CisloZastavky: 488, KodOznaciku: 1
+    /// - "1234567" -> CisloZastavky: 123, KodOznaciku: 45
     /// </summary>
     /// <param name="stopId"></param>
     /// <returns>(CisloZastavky, int KodOznaciku)</returns>  
@@ -14,11 +17,20 @@ public class StopExtension
             return (0, 0);
         }
 
+        // Kontrola formátu ako "U488Z1" - písmená a čísla striedavo
+        // Hľadáme pattern: písmená, potom čísla, potom písmená, potom čísla
+        var match = System.Text.RegularExpressions.Regex.Match(stopId, @"[U]+(\d+)[Z]+(\d+)");
+        if (match.Success)
+        {
+            int cisloZastavky = int.TryParse(match.Groups[1].Value, out var cz) ? cz : 0;
+            int kodOznaciku = int.TryParse(match.Groups[2].Value, out var ko) ? ko : 0;
+            return (cisloZastavky, kodOznaciku);
+        }
+
         var digits = new string(stopId.Where(char.IsDigit).ToArray());
         if (digits.Length == 0)
         {
             return (0, 0);
-
         }
 
         if (digits.Length <= 2)

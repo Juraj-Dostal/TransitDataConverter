@@ -21,6 +21,7 @@ public class Gtfs2Jdf
         jdfData.Spoje = ConvertSpoje(gtfsData);
         jdfData.Zasspoje = ConvertZasspoje(gtfsData);
         jdfData.PevnyKod = ConvertPevnykod(gtfsData);
+        jdfData.Caskody = ConvertCasKodu(gtfsData);
         
         return jdfData;
     }
@@ -43,12 +44,6 @@ public class Gtfs2Jdf
         foreach (var stop in gtfsData.Stops)
         {
             var id = StopExtension.SplitStopId(stop.StopId);
-            
-            if (zastavkyIds.Contains(id.CisloZastavky))
-            {
-                continue;
-            }
-
             var nazov = StopExtension.SplitStopName(stop.StopName);
             
             var zastavka = new Zastavky
@@ -160,11 +155,6 @@ public class Gtfs2Jdf
 
         foreach (var stopTime in gtfsData.StopTimes)
         {
-            if (!int.TryParse(stopTime.StopId, out int result))
-            {
-                continue;
-            }
-            
             var zaslinka = new Zaslinky
             {
                 CisloLinky =  RouteExtension.FindRouteIdFromTripId(gtfsData.Trips, stopTime.TripId),
@@ -287,7 +277,7 @@ public class Gtfs2Jdf
             {
                 caskodyList.Add(new Caskody
                 {
-                    CisloLinky = int.Parse(service.RouteId),
+                    CisloLinky = RouteExtension.ToRouteId(service.RouteId),
                     CisloSpoje = int.Parse(service.TripId),
                     Cislo = casovyKodCounter,
                     Oznacenie = 10 + (casovyKodCounter % 10), 
@@ -309,7 +299,7 @@ public class Gtfs2Jdf
             {
                 caskodyList.Add(new Caskody
                 {
-                    CisloLinky = int.Parse(service.RouteId),
+                    CisloLinky = RouteExtension.ToRouteId(service.RouteId),
                     CisloSpoje = int.Parse(service.TripId),
                     Cislo = casovyKodCounter,
                     Oznacenie = 10 + (casovyKodCounter % 10), 
