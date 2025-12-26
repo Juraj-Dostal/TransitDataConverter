@@ -1,8 +1,8 @@
 using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
+using TDCLibrary.GtfsModel;
 using TDCLibrary.GtsfModel;
-using TDCLibrary.GtsfModel.Enums;
 
 namespace TDCLibrary;
 

@@ -1,3 +1,5 @@
+using TDCLibrary.GtfsModel;
+
 namespace TDCLibrary.GtsfModel;
 
 /// <summary>

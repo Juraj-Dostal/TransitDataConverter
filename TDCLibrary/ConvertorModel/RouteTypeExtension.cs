@@ -1,4 +1,4 @@
-using TDCLibrary.GtsfModel.Enums;
+using TDCLibrary.GtfsModel.Enums;
 using TDCLibrary.JdfModel.Enums;
 
 namespace TDCLibrary.ConvertorModel;

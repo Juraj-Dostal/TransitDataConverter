@@ -1,6 +1,6 @@
 using TDCLibrary.ConvertorModel;
+using TDCLibrary.GtfsModel.Enums;
 using TDCLibrary.GtsfModel;
-using TDCLibrary.GtsfModel.Enums;
 using TDCLibrary.JdfModel;
 using TDCLibrary.JdfModel.Enums;
 

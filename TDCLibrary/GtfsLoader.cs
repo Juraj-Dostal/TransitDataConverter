@@ -1,8 +1,10 @@
 using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
+using TDCLibrary.GtfsModel;
+using TDCLibrary.GtfsModel.Enums;
 using TDCLibrary.GtsfModel;
-using TDCLibrary.GtsfModel.Enums;
+using Calendar = TDCLibrary.GtfsModel.Calendar;
 
 namespace TDCLibrary;
 
@@ -106,7 +108,7 @@ public class GtfsLoader
     /// <summary>
     /// Načíta kalendáre zo súboru calendar.txt
     /// </summary>
-    public List<GtsfModel.Calendar> LoadCalendars()
+    public List<Calendar> LoadCalendars()
     {
         return LoadCsvFile("calendar.txt", ParseCalendar);
     }
@@ -417,9 +419,9 @@ public class GtfsLoader
         };
     }
     
-    private GtsfModel.Calendar ParseCalendar(Dictionary<string, string> row)
+    private Calendar ParseCalendar(Dictionary<string, string> row)
     {
-        return new GtsfModel.Calendar
+        return new Calendar
         {
             ServiceId = GetValue(row, "service_id"),
             Monday = ParseInt(GetValue(row, "monday")) == 1,

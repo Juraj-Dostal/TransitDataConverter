@@ -11,6 +11,8 @@ using ReactiveUI;
 using TDCLibrary;
 using TDCLibrary.GtsfModel;
 using TDCGui.Views.GtfsViews;
+using TDCLibrary.GtfsModel;
+using Calendar = TDCLibrary.GtfsModel.Calendar;
 
 namespace TDCGui.ViewModels;
 
@@ -100,7 +102,7 @@ public class MainViewModel : ReactiveObject
             },
             "Calendar" => new CalendarView
             {
-                DataContext = new ObservableCollection<TDCLibrary.GtsfModel.Calendar>(Data.Calendars)
+                DataContext = new ObservableCollection<Calendar>(Data.Calendars)
             },
             "CalendarDates" => new CalendarDatesView
             {

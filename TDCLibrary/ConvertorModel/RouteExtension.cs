@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using TDCLibrary.GtfsModel;
 using TDCLibrary.GtsfModel;
 using TDCLibrary.JdfModel.Enums;
 
