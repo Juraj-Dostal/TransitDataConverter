@@ -731,5 +731,5 @@ Vytvorené ako školský projekt pre správu a konverziu dát verejnej dopravy.
 
 ---
 
-**Posledná aktualizácia:** December 2024
+**Posledná aktualizácia:** December 2025
 
