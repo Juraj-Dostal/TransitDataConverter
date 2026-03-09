@@ -7,8 +7,20 @@ public enum PevnyKodOznacenie
     [Description("X")]
     PracovneDni,
     
-    [Description("+")]
+    [Description("a")]
     NedeleAveSviatky,
+    
+    [Description("@")]
+    Bezbarierovost,
+        
+    [Description("6")]
+    Sobota,
+    
+    [Description("7")]
+    Nedela,
+    
+    [Description("x")]
+    ZastavkaNaZiadost,
     
     [Description("1")]
     Pondelok,
@@ -25,12 +37,6 @@ public enum PevnyKodOznacenie
     [Description("5")]
     Piatok,
     
-    [Description("6")]
-    Sobota,
-    
-    [Description("7")]
-    Nedela,
-    
     [Description("R")]
     MiestenkaVolitelna,
     
@@ -43,9 +49,6 @@ public enum PevnyKodOznacenie
     [Description("<")]
     AlternatívnaTrasa,
     
-    [Description("@")]
-    Bezbarierovost,
-    
     [Description("%")]
     Obcerstvenie,
     
@@ -54,9 +57,6 @@ public enum PevnyKodOznacenie
     
     [Description("w")]
     VerejneWCVZastavkeBezbarierove,
-    
-    [Description("x")]
-    ZastavkaNaZiadost,
     
     [Description("~")]
     PrestupNaMHD,

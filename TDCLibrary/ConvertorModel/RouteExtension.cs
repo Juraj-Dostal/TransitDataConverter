@@ -22,19 +22,20 @@ public class RouteExtension
             return -1;
         }
 
-        // prefer 6-digit sequence
-        var m6 = Regex.Match(input, @"\d{6}");
-        if (m6.Success)
-        {
-            return int.Parse(m6.Value);
-        }
-
-        // fallback to 3-digit sequence
-        var m3 = Regex.Match(input, @"\d{3}");
-        if (m3.Success)
-        {
-            return int.Parse("010" + m3.Value);
-        }
+        return int.Parse(input.Replace("_", ""));
+        // // prefer 6-digit sequence
+        // var m6 = Regex.Match(input, @"\d{6}");
+        // if (m6.Success)
+        // {
+        //     return int.Parse(m6.Value);
+        // }
+        //
+        // // fallback to 3-digit sequence
+        // var m3 = Regex.Match(input, @"\d{3}");
+        // if (m3.Success)
+        // {
+        //     return int.Parse("010" + m3.Value);
+        // }
 
         Console.Error.Write($"Route id string '{input}' does not contain a valid 3- or 6-digit sequence.");
         return -1;
