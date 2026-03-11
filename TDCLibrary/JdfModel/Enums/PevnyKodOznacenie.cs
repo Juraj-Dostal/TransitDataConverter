@@ -4,6 +4,9 @@ namespace TDCLibrary.JdfModel.Enums;
 
 public enum PevnyKodOznacenie
 {
+    [Description("R")]
+    MiestenkaVolitelna,
+    
     [Description("X")]
     PracovneDni,
     
@@ -37,8 +40,7 @@ public enum PevnyKodOznacenie
     [Description("5")]
     Piatok,
     
-    [Description("R")]
-    MiestenkaVolitelna,
+    
     
     [Description("#")]
     MiestenkaPovinná,
