@@ -13,7 +13,11 @@
         <vm:MainViewModel />
     </Design.DataContext>
     <DockPanel>
-        <Border DockPanel.Dock="Top" Background="#EEE" Padding="8" BorderBrush="#CCC" BorderThickness="0,0,0,1">
+        <Border DockPanel.Dock="Top" 
+                Background="{DynamicResource SystemAltMediumLowColor}" 
+                Padding="8" 
+                BorderBrush="{DynamicResource SystemBaseLowColor}" 
+                BorderThickness="0,0,0,1">
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <Button Content="Vybrať priečinok GTFS" Command="{Binding SelectFolderCommand}"/>
                 <TextBlock Text="{Binding SelectedFolder}" MaxWidth="250" TextWrapping="Wrap"/>
