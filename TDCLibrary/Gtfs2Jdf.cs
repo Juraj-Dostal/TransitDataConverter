@@ -265,54 +265,87 @@ public class Gtfs2Jdf
         
         int casovyKodCounter = 1;
         var serviceToSpoje = gtfsData.Trips
+            .OrderBy(t => t.ServiceId)
             .GroupBy(t => t.ServiceId)
             .ToDictionary(g => g.Key, g => g.ToList());
 
-        
-        foreach (var cal in gtfsData.Calendars)
+        // Pre každý serviceId získaj časové segmenty
+        foreach (var serviceEntry in serviceToSpoje)
         {
-            if (!serviceToSpoje.ContainsKey(cal.ServiceId)) continue;
-
-            foreach (var service in serviceToSpoje[cal.ServiceId])
+            var serviceId = serviceEntry.Key;
+            var trips = serviceEntry.Value;
+            
+            // Získaj časové segmenty pre tento service
+            var timeSegments = CalendarExtension.GetTimeSegmentsForService(serviceId, gtfsData);
+            
+            if (timeSegments.Count == 0)
             {
-                caskodyList.Add(new Caskody
+                Console.WriteLine($"WARNING: No time segments found for serviceId: {serviceId}");
+                continue;
+            }
+
+            Console.WriteLine($"ServiceId {serviceId}: Found {timeSegments.Count} time segment(s)");
+            
+            // Vypis segmenty
+            for (int i = 0; i < timeSegments.Count; i++)
+            {
+                var seg = timeSegments[i];
+                Console.WriteLine($"  Segment {i+1}: {seg.StartDate:dd.MM.yyyy} - {seg.EndDate:dd.MM.yyyy}, PevneKody: {string.Join(",", seg.PevneKody)}");
+            }
+            
+            // Skontroluj, či existujú calendar_dates pre tento service
+            var hasCalendarDateRestrictions = gtfsData.CalendarDates
+                .Any(cd => cd.ServiceId == serviceId && cd.ExceptionType == ExceptionType.ServiceAdded);
+            
+            Console.WriteLine($"  hasCalendarDateRestrictions: {hasCalendarDateRestrictions}");
+            
+            // Ak je iba jeden segment a NEMÁ calendar_dates obmedzenia, nepotrebujeme časové kódy
+            if (timeSegments.Count == 1 && !hasCalendarDateRestrictions)
+            {
+                var segment = timeSegments[0];
+                Console.WriteLine($"  Single segment without calendar_dates: {segment.StartDate:dd.MM.yyyy} - {segment.EndDate:dd.MM.yyyy}");
+                // Pevné kódy sú už nastavené v Spoje, nie je potrebný časový kód
+                continue;
+            }
+            
+            // Vytvor Caskody pre tento service (buď má viacero segmentov, alebo má calendar_dates obmedzenia)
+            Console.WriteLine($"  Creating Caskody for {trips.Count} trip(s) with {timeSegments.Count} segment(s)");
+            
+            // Pre každý trip v tomto service vytvor časové kódy pre každý segment
+            foreach (var trip in trips)
+            {
+                Console.WriteLine($"  Processing trip: {trip.TripId}");
+                int segmentNumber = 1;
+                foreach (var segment in timeSegments)
                 {
-                    CisloLinky = RouteExtension.ToRouteId(service.RouteId),
-                    CisloSpoje = int.Parse(service.TripId.Replace("_", "")),
-                    Cislo = casovyKodCounter,
-                    Oznacenie = 10 + (casovyKodCounter % 10), 
-                    Typ = TypCasKod.Jede , // "jede"
-                    DatumOd = cal.StartDate,
-                    DatumDo = cal.EndDate,
-                    Poznamka = null,
-                    RozlisenieLinky = 1
-                });
-                casovyKodCounter++;
+                    Console.WriteLine($"    Processing segment {segmentNumber}: {segment.StartDate:dd.MM.yyyy} - {segment.EndDate:dd.MM.yyyy}, PevneKody count: {segment.PevneKody.Count}");
+                    
+                    // Vytvor časový kód pre tento segment
+                    var caskod = new Caskody
+                    {
+                        CisloLinky = RouteExtension.ToRouteId(trip.RouteId),
+                        CisloSpoje = int.Parse(trip.TripId.Replace("_", "")),
+                        Cislo = casovyKodCounter,
+                        Oznacenie = 10 + (casovyKodCounter % 90), // Označenia 10-99
+                        Typ = TypCasKod.Jede,
+                        DatumOd = segment.StartDate.ToString("ddMMyyyy"),
+                        DatumDo = segment.EndDate.ToString("ddMMyyyy"),
+                        Poznamka = $"Obdobie {segmentNumber}",
+                        RozlisenieLinky = 1
+                    };
+                    
+                    caskodyList.Add(caskod);
+                    Console.WriteLine($"    Created Caskod #{casovyKodCounter} for trip {trip.TripId}: " +
+                                    $"{segment.StartDate:dd.MM.yyyy} - {segment.EndDate:dd.MM.yyyy}, " +
+                                    $"PevneKody: {string.Join(", ", segment.PevneKody)}");
+                    
+                    casovyKodCounter++;
+                    segmentNumber++;
+                }
             }
         }
-        
-        foreach (var calDate in gtfsData.CalendarDates)
-        {
-            if (!serviceToSpoje.ContainsKey(calDate.ServiceId)) continue;
 
-            foreach (var service in serviceToSpoje[calDate.ServiceId])
-            {
-                caskodyList.Add(new Caskody
-                {
-                    CisloLinky = RouteExtension.ToRouteId(service.RouteId),
-                    CisloSpoje = int.Parse(service.TripId.Replace("_", "")),
-                    Cislo = casovyKodCounter,
-                    Oznacenie = 10 + (casovyKodCounter % 10), 
-                    Typ = CalendarExtension.ToTypCasKod(calDate.ExceptionType) , 
-                    DatumOd = calDate.Date,
-                    DatumDo = calDate.Date,
-                    Poznamka = null,
-                    RozlisenieLinky = 1
-                });
-                casovyKodCounter++;
-            }
-        }
-
+        Console.WriteLine($"Total Caskody created: {caskodyList.Count}");
         return caskodyList;
     }
     
