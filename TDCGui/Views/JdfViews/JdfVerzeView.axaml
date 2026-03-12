@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TDCGui.Views.JdfViews.JdfVerzeView">
+        <StackPanel Margin="20" Spacing="10">
+            <TextBlock Text="Verzia JDF" FontSize="18" FontWeight="Bold"/>
+            <StackPanel Spacing="5">
+                <TextBlock Text="Verzia JDF:" FontWeight="Bold"/>
+                <TextBox Text="{Binding VerziaJDF}" Width="300" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <StackPanel Spacing="5">
+                <TextBlock Text="Číslo DÚ:" FontWeight="Bold"/>
+                <TextBox Text="{Binding CisloDU}" Width="300" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <StackPanel Spacing="5">
+                <TextBlock Text="Okres/Kraj:" FontWeight="Bold"/>
+                <TextBox Text="{Binding OkresKraj}" Width="300" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <StackPanel Spacing="5">
+                <TextBlock Text="Identifikace dávky:" FontWeight="Bold"/>
+                <TextBox Text="{Binding IdentikaciaDat}" Width="300" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <StackPanel Spacing="5">
+                <TextBlock Text="Dátum výroby dát:" FontWeight="Bold"/>
+                <TextBox Text="{Binding DatumVyrobyDat}" Width="300" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <StackPanel Spacing="5">
+                <TextBlock Text="Jmeno:" FontWeight="Bold"/>
+                <TextBox Text="{Binding Jmeno}" Width="300" HorizontalAlignment="Left"/>
+            </StackPanel>
+        </StackPanel>
+
+</UserControl>

@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+             x:Class="TDCGui.Views.GtfsViews.CalendarDatesView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+
+    <controls:DataGrid ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="False"
+                      GridLinesVisibility="All"
+                      HeadersVisibility="All">
+        <controls:DataGrid.Columns>
+            <controls:DataGridTextColumn Header="service_id" Binding="{Binding ServiceId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="date" Binding="{Binding Date}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="exception_type" Binding="{Binding ExceptionType}" Width="Auto"/>
+        </controls:DataGrid.Columns>
+    </controls:DataGrid>
+
+</UserControl>

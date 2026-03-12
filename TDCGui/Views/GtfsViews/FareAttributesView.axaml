@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+             x:Class="TDCGui.Views.GtfsViews.FareAttributesView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+
+    <controls:DataGrid ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="False"
+                      GridLinesVisibility="All"
+                      HeadersVisibility="All">
+        <controls:DataGrid.Columns>
+            <controls:DataGridTextColumn Header="fare_id" Binding="{Binding FareId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="price" Binding="{Binding Price}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="currency_type" Binding="{Binding CurrencyType}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="payment_method" Binding="{Binding PaymentMethod}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="transfers" Binding="{Binding Transfers}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="agency_id" Binding="{Binding AgencyId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="transfer_duration" Binding="{Binding TransferDuration}" Width="Auto"/>
+        </controls:DataGrid.Columns>
+    </controls:DataGrid>
+
+</UserControl>

@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+             x:Class="TDCGui.Views.GtfsViews.AttributionsView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+
+    <controls:DataGrid ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="False"
+                      GridLinesVisibility="All"
+                      HeadersVisibility="All">
+        <controls:DataGrid.Columns>
+            <controls:DataGridTextColumn Header="attribution_id" Binding="{Binding AttributionId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="agency_id" Binding="{Binding AgencyId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="route_id" Binding="{Binding RouteId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="trip_id" Binding="{Binding TripId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="organization_name" Binding="{Binding OrganizationName}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="is_producer" Binding="{Binding IsProducer}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="is_operator" Binding="{Binding IsOperator}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="is_authority" Binding="{Binding IsAuthority}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="attribution_url" Binding="{Binding AttributionUrl}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="attribution_email" Binding="{Binding AttributionEmail}" Width="Auto"/>
+        </controls:DataGrid.Columns>
+    </controls:DataGrid>
+
+</UserControl>

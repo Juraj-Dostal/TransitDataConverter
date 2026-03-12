@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TDCGui.Views.JdfViews.JdfDopravciView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+    <DataGrid ItemsSource="{Binding}"
+              IsReadOnly="False"
+              CanUserReorderColumns="True"
+              CanUserResizeColumns="True"
+              GridLinesVisibility="All"
+              BorderThickness="1"
+              BorderBrush="Gray">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="IČ" Binding="{Binding IC}" Width="Auto"/>
+            <DataGridTextColumn Header="DIČ" Binding="{Binding DIC}" Width="Auto"/>
+            <DataGridTextColumn Header="Obchodné meno" Binding="{Binding ObchodnéMeno}" Width="Auto"/>
+            <DataGridTextColumn Header="Druh firmy" Binding="{Binding DruhFirmy}" Width="Auto"/>
+            <DataGridTextColumn Header="Meno fyz. osoby" Binding="{Binding MenoFyzOsoby}" Width="Auto"/>
+            <DataGridTextColumn Header="Sídlo" Binding="{Binding Sidlo}" Width="Auto"/>
+            <DataGridTextColumn Header="Telefón sídlo" Binding="{Binding TelefonSidlo}" Width="Auto"/>
+            <DataGridTextColumn Header="Telefón dispečink" Binding="{Binding TelefonDispecink}" Width="Auto"/>
+            <DataGridTextColumn Header="Telefón informácie" Binding="{Binding TelefonInformace}" Width="Auto"/>
+            <DataGridTextColumn Header="Fax" Binding="{Binding Fax}" Width="Auto"/>
+            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="Auto"/>
+            <DataGridTextColumn Header="Web" Binding="{Binding Web}" Width="Auto"/>
+            <DataGridTextColumn Header="Rozlíšenie dopravcu" Binding="{Binding RozlisenieDopravcu}" Width="Auto"/>
+            </DataGrid.Columns>
+    </DataGrid>
+
+</UserControl>

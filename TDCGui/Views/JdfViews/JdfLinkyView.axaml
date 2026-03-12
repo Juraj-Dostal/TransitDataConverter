@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TDCGui.Views.JdfViews.JdfLinkyView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+    <DataGrid ItemsSource="{Binding}"
+              IsReadOnly="False"
+              CanUserReorderColumns="True"
+              CanUserResizeColumns="True"
+              GridLinesVisibility="All"
+              BorderThickness="1"
+              BorderBrush="Gray">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Číslo" Binding="{Binding Cislo}" Width="Auto"/>
+            <DataGridTextColumn Header="Názov" Binding="{Binding Nazov}" Width="Auto"/>
+            <DataGridTextColumn Header="IČ dopravce" Binding="{Binding IcDopravce}" Width="Auto"/>
+            <DataGridTextColumn Header="Typ" Binding="{Binding Typ}" Width="Auto"/>
+            <DataGridTextColumn Header="Dopravný prostriedok" Binding="{Binding DopravnyProstriedok}" Width="Auto"/>
+            <DataGridCheckBoxColumn Header="Obchádzk. JŘ" Binding="{Binding ObjizdkovyJR}" Width="Auto"/>
+            <DataGridCheckBoxColumn Header="Seskupenie spojov" Binding="{Binding SeskupenieSpojov}" Width="Auto"/>
+            <DataGridCheckBoxColumn Header="Použitie označníkov" Binding="{Binding PouzitieOznacnikov}" Width="Auto"/>
+            <DataGridTextColumn Header="Rezerva" Binding="{Binding Rezerva}" Width="Auto"/>
+            <DataGridTextColumn Header="Číslo licencie" Binding="{Binding CisloLicencie}" Width="Auto"/>
+            <DataGridTextColumn Header="Platnosť lic. od" Binding="{Binding PlatnostLicencieOd}" Width="Auto"/>
+            <DataGridTextColumn Header="Platnosť lic. do" Binding="{Binding PlatnostLicencieDo}" Width="Auto"/>
+            <DataGridTextColumn Header="Platnosť JŘ od" Binding="{Binding PlatnostJROd}" Width="Auto"/>
+            <DataGridTextColumn Header="Platnosť JŘ do" Binding="{Binding PlatnostJRDo}" Width="Auto"/>
+            <DataGridTextColumn Header="Rozlíšenie dopravcu" Binding="{Binding RozlisenieDopravcu}" Width="Auto"/>
+            <DataGridTextColumn Header="Rozlíšenie linky" Binding="{Binding RozlisenieLinky}" Width="Auto"/>
+            </DataGrid.Columns>
+    </DataGrid>
+
+</UserControl>

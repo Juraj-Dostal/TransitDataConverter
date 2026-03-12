@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TDCGui.Views.JdfViews.JdfZastavkyView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+    <DataGrid ItemsSource="{Binding}"
+              IsReadOnly="False"
+              CanUserReorderColumns="True"
+              CanUserResizeColumns="True"
+              GridLinesVisibility="All"
+              BorderThickness="1"
+              BorderBrush="Gray">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Číslo" Binding="{Binding Cislo}" Width="Auto"/>
+            <DataGridTextColumn Header="Názov obce" Binding="{Binding NazovObce}" Width="Auto"/>
+            <DataGridTextColumn Header="Časť obce" Binding="{Binding CastObce}" Width="Auto"/>
+            <DataGridTextColumn Header="Blízke miesto" Binding="{Binding BlizkeMiesto}" Width="Auto"/>
+            <DataGridTextColumn Header="Blízka obec" Binding="{Binding BlizkaObec}" Width="Auto"/>
+            <DataGridTextColumn Header="Štát" Binding="{Binding Stat}" Width="Auto"/>
+            <DataGridTextColumn Header="Pevný kód 1" Binding="{Binding PevnyKod1}" Width="Auto"/>
+            <DataGridTextColumn Header="Pevný kód 2" Binding="{Binding PevnyKod2}" Width="Auto"/>
+            <DataGridTextColumn Header="Pevný kód 3" Binding="{Binding PevnyKod3}" Width="Auto"/>
+            <DataGridTextColumn Header="Pevný kód 4" Binding="{Binding PevnyKod4}" Width="Auto"/>
+            <DataGridTextColumn Header="Pevný kód 5" Binding="{Binding PevnyKod5}" Width="Auto"/>
+            <DataGridTextColumn Header="Pevný kód 6" Binding="{Binding PevnyKod6}" Width="Auto"/>
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

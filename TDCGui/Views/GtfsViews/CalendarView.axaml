@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+             x:Class="TDCGui.Views.GtfsViews.CalendarView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+
+    <controls:DataGrid ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="False"
+                      GridLinesVisibility="All"
+                      HeadersVisibility="All">
+    <controls:DataGrid.Columns>
+            <controls:DataGridTextColumn Header="service_id" Binding="{Binding ServiceId}" Width="Auto"/>
+            <controls:DataGridCheckBoxColumn Header="monday" Binding="{Binding Monday}" Width="Auto"/>
+            <controls:DataGridCheckBoxColumn Header="tuesday" Binding="{Binding Tuesday}" Width="Auto"/>
+            <controls:DataGridCheckBoxColumn Header="wednesday" Binding="{Binding Wednesday}" Width="Auto"/>
+            <controls:DataGridCheckBoxColumn Header="thursday" Binding="{Binding Thursday}" Width="Auto"/>
+            <controls:DataGridCheckBoxColumn Header="friday" Binding="{Binding Friday}" Width="Auto"/>
+            <controls:DataGridCheckBoxColumn Header="saturday" Binding="{Binding Saturday}" Width="Auto"/>
+            <controls:DataGridCheckBoxColumn Header="sunday" Binding="{Binding Sunday}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="start_date" Binding="{Binding StartDate}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="end_date" Binding="{Binding EndDate}" Width="Auto"/>
+        </controls:DataGrid.Columns>
+    </controls:DataGrid>
+</UserControl>

@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TDCGui.Views.JdfViews.JdfZasspojeView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+    <DataGrid ItemsSource="{Binding}"
+              IsReadOnly="False"
+              CanUserReorderColumns="True"
+              CanUserResizeColumns="True"
+              GridLinesVisibility="All"
+              BorderThickness="1"
+              BorderBrush="Gray">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Číslo linky" Binding="{Binding CisloLinky}" Width="Auto"/>
+            <DataGridTextColumn Header="Číslo spoje" Binding="{Binding CisloSpoje}" Width="Auto"/>
+            <DataGridTextColumn Header="Číslo tarifní" Binding="{Binding CisloTarifni}" Width="Auto"/>
+            <DataGridTextColumn Header="Číslo zastávky" Binding="{Binding CisloZastavky}" Width="Auto"/>
+            <DataGridTextColumn Header="Kód označníku" Binding="{Binding KodOznacniku}" Width="Auto"/>
+            <DataGridTextColumn Header="Číslo stanovište" Binding="{Binding CisloStanoviste}" Width="Auto"/>
+            <DataGridTextColumn Header="Pevný kód 1" Binding="{Binding PevnyKod1}" Width="Auto"/>
+            <DataGridTextColumn Header="Pevný kód 2" Binding="{Binding PevnyKod2}" Width="Auto"/>
+            <DataGridTextColumn Header="Kilometre" Binding="{Binding Kilometry}" Width="Auto"/>
+            <DataGridTextColumn Header="Čas príchodu" Binding="{Binding CasPrichodu}" Width="Auto"/>
+            <DataGridTextColumn Header="Čas odchodu" Binding="{Binding CasOdchodu}" Width="Auto"/>
+            <DataGridTextColumn Header="Rozlíšenie linky" Binding="{Binding RozlisenieLinky}" Width="Auto"/>
+            </DataGrid.Columns>
+    </DataGrid>
+
+</UserControl>

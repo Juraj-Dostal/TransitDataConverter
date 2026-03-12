@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+             x:Class="TDCGui.Views.GtfsViews.PathwaysView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+
+    <controls:DataGrid ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="False"
+                      GridLinesVisibility="All"
+                      HeadersVisibility="All">
+        <controls:DataGrid.Columns>
+            <controls:DataGridTextColumn Header="pathway_id" Binding="{Binding PathwayId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="from_stop_id" Binding="{Binding FromStopId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="to_stop_id" Binding="{Binding ToStopId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="pathway_mode" Binding="{Binding PathwayMode}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="is_bidirectional" Binding="{Binding IsBidirectional}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="length" Binding="{Binding Length}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="traversal_time" Binding="{Binding TraversalTime}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="stair_count" Binding="{Binding StairCount}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="max_slope" Binding="{Binding MaxSlope}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="min_width" Binding="{Binding MinWidth}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="signposted_as" Binding="{Binding SignpostedAs}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="reversed_signposted_as" Binding="{Binding ReversedSignpostedAs}" Width="Auto"/>
+        </controls:DataGrid.Columns>
+    </controls:DataGrid>
+
+</UserControl>

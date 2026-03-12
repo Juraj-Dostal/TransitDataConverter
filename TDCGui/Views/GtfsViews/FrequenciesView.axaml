@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+             x:Class="TDCGui.Views.GtfsViews.FrequenciesView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+
+    <controls:DataGrid ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="False"
+                      GridLinesVisibility="All"
+                      HeadersVisibility="All">
+        <controls:DataGrid.Columns>
+            <controls:DataGridTextColumn Header="trip_id" Binding="{Binding TripId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="start_time" Binding="{Binding StartTime}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="end_time" Binding="{Binding EndTime}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="headway_secs" Binding="{Binding HeadwaySecs}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="exact_times" Binding="{Binding ExactTimes}" Width="Auto"/>
+        </controls:DataGrid.Columns>
+    </controls:DataGrid>
+
+</UserControl>

@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TDCGui.Views.JdfViews.JdfOznacnikyView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+    <DataGrid ItemsSource="{Binding}"
+              IsReadOnly="False"
+              CanUserReorderColumns="True"
+              CanUserResizeColumns="True"
+              GridLinesVisibility="All"
+              BorderThickness="1"
+              BorderBrush="Gray">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Číslo zastávky" Binding="{Binding CisloZastavky}" Width="Auto"/>
+            <DataGridTextColumn Header="Kód označníku" Binding="{Binding KodOznacniku}" Width="Auto"/>
+            <DataGridTextColumn Header="Názov" Binding="{Binding Nazov}" Width="Auto"/>
+            <DataGridTextColumn Header="Smer/Popis" Binding="{Binding SmerPopis}" Width="Auto"/>
+            <DataGridTextColumn Header="Stanovište" Binding="{Binding Stanoviste}" Width="Auto"/>
+            <DataGridTextColumn Header="Rezerva" Binding="{Binding Rezerva}" Width="Auto"/>
+            </DataGrid.Columns>
+    </DataGrid>
+
+</UserControl>

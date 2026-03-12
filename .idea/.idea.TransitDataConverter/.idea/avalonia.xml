@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="TDCGui/JdfWindow.axaml" value="TDCGui/TDCGui.csproj" />
+        <entry key="TDCGui/MainWindow.axaml" value="TDCGui/TDCGui.csproj" />
+        <entry key="TDCGui/Views/AgencyDataControl.axaml" value="TDCGui/TDCGui.csproj" />
+        <entry key="TDCGui/Views/AttributionsView.axaml" value="TDCGui/TDCGui.csproj" />
+        <entry key="TDCGui/Views/CalendarView.axaml" value="TDCGui/TDCGui.csproj" />
+        <entry key="TDCGui/Views/FareAttributesView.axaml" value="TDCGui/TDCGui.csproj" />
+        <entry key="TDCGui/Views/FrequenciesView.axaml" value="TDCGui/TDCGui.csproj" />
+        <entry key="TDCGui/Views/JdfViews/JdfVerzeView.axaml" value="TDCGui/TDCGui.csproj" />
+        <entry key="TDCGui/Views/RoutesView.axaml" value="TDCGui/TDCGui.csproj" />
+        <entry key="TDCGui/Views/StopTimesView.axaml" value="TDCGui/TDCGui.csproj" />
+        <entry key="TDCGui/Views/TripsView.axaml" value="TDCGui/TDCGui.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

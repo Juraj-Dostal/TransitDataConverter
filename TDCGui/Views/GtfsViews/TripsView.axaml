@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.DataGrid"
+             x:Class="TDCGui.Views.GtfsViews.TripsView">
+    <UserControl.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </UserControl.Styles>
+    
+    <controls:DataGrid ItemsSource="{Binding}" 
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="False"
+                      GridLinesVisibility="All"
+                      HeadersVisibility="All">
+    <controls:DataGrid.Columns>
+            <controls:DataGridTextColumn Header="route_id" Binding="{Binding RouteId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="service_id" Binding="{Binding ServiceId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="trip_id" Binding="{Binding TripId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="trip_headsign" Binding="{Binding TripHeadsign}" Width="*"/>
+            <controls:DataGridTextColumn Header="trip_short_name" Binding="{Binding TripShortName}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="direction_id" Binding="{Binding DirectionId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="block_id" Binding="{Binding BlockId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="shape_id" Binding="{Binding ShapeId}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="wheelchair_accessible" Binding="{Binding WheelchairAccessible}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="bikes_allowed" Binding="{Binding BikesAllowed}" Width="Auto"/>
+            <controls:DataGridTextColumn Header="cars_allowed" Binding="{Binding CarsAllowed}" Width="Auto"/>
+        </controls:DataGrid.Columns>
+    </controls:DataGrid>
+</UserControl>
