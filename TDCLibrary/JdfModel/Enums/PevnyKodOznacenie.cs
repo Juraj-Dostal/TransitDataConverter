@@ -15,12 +15,12 @@ public enum PevnyKodOznacenie
     
     [Description("@")]
     Bezbarierovost,
-        
-    [Description("6")]
-    Sobota,
     
     [Description("7")]
     Nedela,
+    
+    [Description("6")]
+    Sobota,
     
     [Description("x")]
     ZastavkaNaZiadost,
