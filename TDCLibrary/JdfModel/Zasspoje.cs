@@ -48,7 +48,7 @@ public class Zasspoje
     /// <summary>
     /// Kilometry (VOLITEĽNÉ)
     /// </summary>
-    public decimal? Kilometry { get; set; }
+    public double? Kilometry { get; set; }
     
     /// <summary>
     /// Čas příjezdu (POVINNÉ)

@@ -22,7 +22,9 @@ public class RouteExtension
             return -1;
         }
 
-        return int.Parse(input.Replace("_", ""));
+        var id = input.Split('_', 2)[1];
+
+        return int.Parse(id);
         // // prefer 6-digit sequence
         // var m6 = Regex.Match(input, @"\d{6}");
         // if (m6.Success)
@@ -54,7 +56,7 @@ public class RouteExtension
         return ToRouteId(trip.RouteId);
     }
 
-    public static Trip? FindRouteFromTripId(List<Trip> trips, string tripId)
+    public static Trip? FindTripFromTripId(List<Trip> trips, string tripId)
     {
         var trip = trips.FirstOrDefault(t => t.TripId == tripId);
         
@@ -65,6 +67,19 @@ public class RouteExtension
         }
         
         return trip;
+    }
+
+    public static Route? FindRouteFromTrip(List<Route> routes, Trip trip)
+    {
+        var route = routes.FirstOrDefault(r => r.RouteId == trip.RouteId);
+        
+        if (route == null)
+        {
+            Console.Error.Write($"Route with id '{trip.RouteId}' not found for trip '{trip.TripId}'.");
+            return null;
+        }
+        
+        return route;
     }
     
 }

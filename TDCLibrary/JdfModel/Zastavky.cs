@@ -46,4 +46,15 @@ public class Zastavky
     /// Pole až 6 pevných kódov
     /// </summary>
     public PevnyKodOznacenie?[] PevneKody { get; set; } = new PevnyKodOznacenie?[6];
+    
+    /// <summary>
+    /// Zemepisná šírka
+    /// </summary>
+    
+    public double? ZemepisnaSirka { get; set; }
+    
+    /// <summary>
+    /// Zemepisná dzlka
+    /// </summary>
+    public double? ZemepisnaDelka { get; set; }
 }

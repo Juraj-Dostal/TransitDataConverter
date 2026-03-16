@@ -86,7 +86,8 @@ public class GtfsLoader
     /// </summary>
     public List<Route> LoadRoutes()
     {
-        return LoadCsvFile("routes.txt", ParseRoute);
+        var routes = LoadCsvFile("routes.txt", ParseRoute);
+        return routes.Where(r => !ShouldSkipServiceId(r.RouteId)).ToList();
     }
     
     /// <summary>
@@ -94,23 +95,26 @@ public class GtfsLoader
     /// </summary>
     public List<Trip> LoadTrips()
     {
-        return LoadCsvFile("trips.txt", ParseTrip);
+        var trips = LoadCsvFile("trips.txt", ParseTrip);
+        return trips.Where(t => !ShouldSkipServiceId(t.ServiceId)).ToList();
     }
-    
+
     /// <summary>
     /// Načíta časy zastávok zo súboru stop_times.txt
     /// </summary>
     public List<StopTime> LoadStopTimes()
     {
-        return LoadCsvFile("stop_times.txt", ParseStopTime);
+        var stopTimes = LoadCsvFile("stop_times.txt", ParseStopTime);
+        return stopTimes.Where(st => !ShouldSkipServiceId(st.TripId)).ToList();
     }
-    
+
     /// <summary>
     /// Načíta kalendáre zo súboru calendar.txt
     /// </summary>
     public List<Calendar> LoadCalendars()
     {
-        return LoadCsvFile("calendar.txt", ParseCalendar);
+        var calendars = LoadCsvFile("calendar.txt", ParseCalendar);
+        return calendars.Where(c => !ShouldSkipServiceId(c.ServiceId)).ToList();
     }
     
     /// <summary>
@@ -118,7 +122,8 @@ public class GtfsLoader
     /// </summary>
     public List<CalendarDate> LoadCalendarDates()
     {
-        return LoadCsvFile("calendar_dates.txt", ParseCalendarDate);
+        var calendarDates = LoadCsvFile("calendar_dates.txt", ParseCalendarDate);
+        return calendarDates.Where(cd => !ShouldSkipServiceId(cd.ServiceId)).ToList();
     }
     
     /// <summary>
@@ -586,5 +591,11 @@ public class GtfsLoader
             AttributionEmail = GetValue(row, "attribution_email"),
             AttributionPhone = GetValue(row, "attribution_phone")
         };
+    }
+    
+    private bool ShouldSkipServiceId(string? serviceId)
+    {
+        return !string.IsNullOrWhiteSpace(serviceId)
+               && serviceId.StartsWith("649", StringComparison.Ordinal);
     }
 }

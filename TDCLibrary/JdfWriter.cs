@@ -118,6 +118,8 @@ public class JdfWriter
             {
                 csv.WriteField(z.PevneKody[i].HasValue ? PevnyKodExtensions.DajCislo(z.PevneKody[i].Value) : "");
             }
+            csv.WriteField(z.ZemepisnaSirka?.ToString(CultureInfo.InvariantCulture));
+            csv.WriteField(z.ZemepisnaDelka?.ToString(CultureInfo.InvariantCulture));
         });
     }
     
@@ -129,18 +131,25 @@ public class JdfWriter
             csv.WriteField(l.Nazov);
             csv.WriteField(l.IcDopravce);
             csv.WriteField(EnumExtension.GetDescription(l.Typ));
-            csv.WriteField(EnumExtension.GetDescription(l.DopravnyProstriedok));
-            csv.WriteField(l.ObjizdkovyJR ? "1" : "0");
-            csv.WriteField(l.SeskupenieSpojov ? "1" : "0");
-            csv.WriteField(l.PouzitieOznacnikov ? "1" : "0");
             csv.WriteField(l.Rezerva ?? "");
             csv.WriteField(l.CisloLicencie ?? "");
             csv.WriteField(l.PlatnostLicencieOd ?? "");
             csv.WriteField(l.PlatnostLicencieDo ?? "");
             csv.WriteField(l.PlatnostJROd);
             csv.WriteField(l.PlatnostJRDo);
-            csv.WriteField(l.RozlisenieDopravcu.ToString());
-            csv.WriteField(l.RozlisenieLinky.ToString());
+            csv.WriteField(EnumExtension.GetDescription(l.DopravnyProstriedok));
+            csv.WriteField("");
+            csv.WriteField(l.Cislo.ToString());
+            csv.WriteField("");
+            csv.WriteField("");
+            csv.WriteField("");
+            csv.WriteField("");
+
+            // csv.WriteField(l.ObjizdkovyJR ? "1" : "0");
+            // csv.WriteField(l.SeskupenieSpojov ? "1" : "0");
+            // csv.WriteField(l.PouzitieOznacnikov ? "1" : "0");
+            // csv.WriteField(l.RozlisenieDopravcu.ToString());
+            // csv.WriteField(l.RozlisenieLinky.ToString());
         });
     }
     
@@ -148,13 +157,13 @@ public class JdfWriter
     {
         WriteCsv("Zaslinky.txt", zaslinky, (csv, z) =>
         {
-            csv.WriteField(z.CisloLinky.ToString());
+            csv.WriteField(z.CisloLinky.ToString("D6"));
             csv.WriteField(z.CisloTarifni.ToString());
             csv.WriteField(z.TarifniPasmo ?? "");
             csv.WriteField(z.CisloZastavky.ToString());
-            csv.WriteField(z.PriemernaDoba ?? "");
+            //csv.WriteField(z.PriemernaDoba ?? "");
             // Zapíš pevné kódy z poľa ako 5-miestne čísla
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 csv.WriteField(z.PevneKody[i].HasValue ? PevnyKodExtensions.DajCislo(z.PevneKody[i].Value) : "");
             }
@@ -173,6 +182,7 @@ public class JdfWriter
             {
                 csv.WriteField(s.PevneKody[i].HasValue ? PevnyKodExtensions.DajCislo(s.PevneKody[i].Value) : "");
             }
+            csv.WriteField(EnumExtension.GetDescription(s.TypVozidla));
             csv.WriteField(s.KodSkupinySpoju?.ToString() ?? "");
             csv.WriteField(s.RozliseniLinky.ToString());
         });
@@ -187,13 +197,14 @@ public class JdfWriter
             csv.WriteField(z.CisloTarifni.ToString());
             csv.WriteField(z.CisloZastavky.ToString());
             csv.WriteField(z.KodOznacniku?.ToString() ?? "");
-            csv.WriteField(z.CisloStanoviste ?? "");
+            //csv.WriteField(z.CisloStanoviste ?? "");
             // Zapíš pevné kódy z poľa ako 5-miestne čísla
             for (int i = 0; i < 2; i++)
             {
                 csv.WriteField(z.PevneKody[i].HasValue ? PevnyKodExtensions.DajCislo(z.PevneKody[i].Value) : "");
             }
-            csv.WriteField(z.Kilometry?.ToString(CultureInfo.InvariantCulture).Replace('.', ',') ?? "");
+            csv.WriteField(z.Kilometry?.ToString(CultureInfo.InvariantCulture)?? "");
+            csv.WriteField("");
             csv.WriteField(z.CasPrichodu);
             csv.WriteField(z.CasOdchodu ?? "");
             csv.WriteField(z.RozlisenieLinky.ToString());

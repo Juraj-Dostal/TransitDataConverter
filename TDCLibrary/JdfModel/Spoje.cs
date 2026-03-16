@@ -26,6 +26,11 @@ public class Spoje
     public PevnyKodOznacenie?[] PevneKody { get; set; } = new PevnyKodOznacenie?[10];
     
     /// <summary>
+    /// Typ vozidla (POVINNÉ)
+    /// </summary>
+    public DopravnyProstriedok TypVozidla { get; set; }
+    
+    /// <summary>
     /// Kód skupiny spojů (NEPOVINNÉ)
     /// </summary>
     public int? KodSkupinySpoju { get; set; }
@@ -34,6 +39,7 @@ public class Spoje
     /// Rozlišení linky (POVINNÉ)
     /// </summary>
     public int RozliseniLinky { get; set; }
+    
     
     // Pomocné vlastnosti pre GUI binding - zobrazujú názov enumu a číslo
     public string? PevnyKod1 => PevneKody[0].HasValue ? $"{PevneKody[0].Value} ({PevnyKodExtensions.DajCislo(PevneKody[0].Value)})" : null;

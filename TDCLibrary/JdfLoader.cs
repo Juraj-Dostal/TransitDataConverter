@@ -213,14 +213,14 @@ public class JdfLoader
         return int.TryParse(value, out var result) ? result : defaultValue;
     }
     
-    private decimal? ParseDecimal(string value)
+    private double? ParseDouble(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return null;
         
         // JDF používa čiarku ako desatinný oddeľovač
         value = value.Replace(',', '.');
-        return decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
+        return double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
     }
     
     private bool ParseBool(string value)
@@ -399,7 +399,7 @@ public class JdfLoader
             CisloZastavky = ParseIntRequired(GetValue(row, "3")),
             KodOznacniku = ParseInt(GetValue(row, "4")),
             CisloStanoviste = GetValue(row, "5"),
-            Kilometry = ParseDecimal(GetValue(row, "8")),
+            Kilometry = ParseDouble(GetValue(row, "8")),
             CasPrichodu = GetValue(row, "9"),
             CasOdchodu = GetValue(row, "10"),
             RozlisenieLinky = ParseIntRequired(GetValue(row, "11"))

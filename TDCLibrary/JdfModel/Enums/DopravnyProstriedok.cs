@@ -4,7 +4,7 @@ namespace TDCLibrary.JdfModel.Enums;
 
 public enum DopravnyProstriedok
 {
-    [Description ("A")]
+    [Description ("T")]
     Autobus,
     [Description ("E")]
     Elektricka,
@@ -14,6 +14,6 @@ public enum DopravnyProstriedok
     Metro,
     [Description ("P")]
     Trajekt,
-    [Description ("T")]
+    [Description ("O")]
     Trolejbus
 }

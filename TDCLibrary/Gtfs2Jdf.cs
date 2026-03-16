@@ -49,9 +49,11 @@ public class Gtfs2Jdf
             var zastavka = new Zastavky
             {
                 Cislo = int.Parse(stop.StopId), //id.CisloZastavky,
-                NazovObce = stop.StopName, //nazov.Obec, 
-                //BlizkeMiesto = nazov.BlizkeMiesto,
+                NazovObce = "Žilina", 
+                BlizkeMiesto = stop.StopName,
                 Stat = "SK", 
+                ZemepisnaSirka = stop.StopLat,
+                ZemepisnaDelka = stop.StopLon
             };
             
             // Nastav pevný kód pre bezbariérovosť, ak je dostupný
@@ -138,8 +140,8 @@ public class Gtfs2Jdf
                 CisloLicencie = RouteExtension.ToRouteId(route.RouteId).ToString(),
                 PlatnostLicencieOd = null,
                 PlatnostLicencieDo = null,
-                PlatnostJROd = DateOnly.MinValue.ToString("ddMMyyyy"), // Todo: zada uzivatel 
-                PlatnostJRDo = null,
+                PlatnostJROd = "23022026", //DateOnly.MinValue.ToString("ddMMyyyy"), // Todo: zada uzivatel 
+                PlatnostJRDo = "31032026",
                 RozlisenieDopravcu = 1,
                 RozlisenieLinky = 1
             };
@@ -184,6 +186,7 @@ public class Gtfs2Jdf
             {
                 CisloLinky = RouteExtension.ToRouteId(trip.RouteId),
                 Cislo = int.Parse(trip.TripId.Replace("_", "")), 
+                TypVozidla = RouteTypeExtension.ToDopravnyProstriedok(RouteExtension.FindRouteFromTrip(gtfsData.Routes, trip).RouteType),
                 KodSkupinySpoju = 0, 
                 RozliseniLinky = 1
             };
@@ -222,14 +225,14 @@ public class Gtfs2Jdf
             var tripId = tripGroup.Key;
             var stopTimes = tripGroup.Value;
 
-            var route = RouteExtension.FindRouteFromTripId(gtfsData.Trips, tripId);
-            if (route == null)
+            var trip = RouteExtension.FindTripFromTripId(gtfsData.Trips, tripId);
+            if (trip == null)
             {
                 throw new ArgumentException("Route does not exists");
             }
 
             int totalStops = stopTimes.Count;
-            bool isOppositeDirection = route.DirectionId == DirectionId.OppositeDirection;
+            bool isOppositeDirection = trip.DirectionId == DirectionId.OppositeDirection;
 
             for (int i = 0; i < stopTimes.Count; i++)
             {
@@ -244,9 +247,9 @@ public class Gtfs2Jdf
                     CisloSpoje = int.Parse(stopTime.TripId.Replace("_", "")),
                     CisloTarifni = tarifniCislo,
                     CisloZastavky = int.Parse(stop.StopId),//id.CisloZastavky,
-                    //KodOznacniku = id.KodOznaciku,
+                    KodOznacniku = id.KodOznaciku,
                     CisloStanoviste = stop.PlatformCode,
-                    Kilometry = null,
+                    Kilometry = stopTime.ShapeDistTraveled / 1000.0, // převod z metrů na kilometry
                     CasPrichodu = Zasspoje.ConvertTime(stopTime.ArrivalTime),
                     CasOdchodu = Zasspoje.ConvertTime(stopTime.DepartureTime),
                     RozlisenieLinky = 1,
